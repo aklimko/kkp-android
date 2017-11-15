@@ -1,0 +1,9 @@
+*.iml
+*.apk
+.gradle
+/local.properties
+/build
+.idea
+/app/libs/
+/app/build/
+/app/proguard-rules.pro
