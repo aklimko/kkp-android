@@ -7,15 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import pl.adamklimko.kkpandroid.R;
 
-public class ConfigurationFragment extends Fragment {
+public class CleanedFragment extends Fragment {
 
 
-    public ConfigurationFragment() {
+    public CleanedFragment() {
         // Required empty public constructor
     }
 
-    public static ConfigurationFragment newInstance() {
-        return new ConfigurationFragment();
+    public static CleanedFragment newInstance() {
+        return new CleanedFragment();
     }
 
 
@@ -23,7 +23,7 @@ public class ConfigurationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_configuration, container, false);
+        return inflater.inflate(R.layout.fragment_cleaned, container, false);
     }
 
 }

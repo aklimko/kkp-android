@@ -78,7 +78,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     private void informToUpdateProfileViewInDrawer() {
-        Intent intent = new Intent("update_profile");
+        final Intent intent = new Intent(DrawerActivity.UPDATE_PROFILE);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 

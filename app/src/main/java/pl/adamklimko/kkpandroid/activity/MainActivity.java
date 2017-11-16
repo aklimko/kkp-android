@@ -2,13 +2,19 @@ package pl.adamklimko.kkpandroid.activity;
 
 import android.os.Bundle;
 import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.fragment.MessageFragment;
+import pl.adamklimko.kkpandroid.fragment.BoughtFragment;
+import pl.adamklimko.kkpandroid.model.BoughtProducts;
+import pl.adamklimko.kkpandroid.model.CleanedRooms;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.KkpService;
+
+import java.util.Map;
 
 public class MainActivity extends DrawerActivity implements FragmentCommunicator {
 
     private KkpService kkpService;
+    private Map<String, BoughtProducts> usersBoughtProducts;
+    private Map<String, CleanedRooms> usersCleanedRooms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,10 +23,12 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
 
         kkpService = ApiClient.createServiceWithAuth(KkpService.class, this);
 
+
+
         if (savedInstanceState == null) {
-            final MessageFragment messageFragment = MessageFragment.newInstance();
+            final BoughtFragment boughtFragment = BoughtFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, messageFragment)
+                    .replace(R.id.fragment_container, boughtFragment)
                     .commit();
         }
     }
@@ -32,7 +40,7 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         kkpService = null;
+        super.onDestroy();
     }
 }

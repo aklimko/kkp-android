@@ -9,29 +9,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.activity.FragmentCommunicator;
 import pl.adamklimko.kkpandroid.activity.LoginActivity;
 import pl.adamklimko.kkpandroid.activity.MainActivity;
-import pl.adamklimko.kkpandroid.exception.NoNetworkConnectedException;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.rest.KkpService;
-import pl.adamklimko.kkpandroid.util.MessageUtil;
-import retrofit2.Call;
-import retrofit2.Response;
 
-import java.io.IOException;
-import java.net.SocketTimeoutException;
-
-public class MessageFragment extends Fragment {
+public class BoughtFragment extends Fragment {
 
     private Context mContext;
 
@@ -42,12 +31,12 @@ public class MessageFragment extends Fragment {
     private EditText mMessageView;
     private Button mSendButton;
 
-    public MessageFragment() {
+    public BoughtFragment() {
         // Required empty public constructor
     }
 
-    public static MessageFragment newInstance() {
-        return new MessageFragment();
+    public static BoughtFragment newInstance() {
+        return new BoughtFragment();
     }
 
     @Override
@@ -60,7 +49,7 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_message, container, false);
+        return inflater.inflate(R.layout.fragment_bought, container, false);
     }
 
     @Override
@@ -73,41 +62,28 @@ public class MessageFragment extends Fragment {
             return;
         }
 
-        mMessageView = getView().findViewById(R.id.message);
-        mMessageView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    mSendButton.performClick();
-                    return true;
-                }
-                return false;
-            }
-        });
-        mSendButton = getView().findViewById(R.id.message_send_button);
-
-        mSendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendMessage();
-            }
-        });
+        final TableLayout tl = getView().findViewById(R.id.table_bought);
+        tl.setStretchAllColumns(true);
+/* Create a new row to be added. */
+        TableRow tr = new TableRow(mContext);
+        tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+/* Create a Button to be the row-content. */
+        Button b = new Button(mContext);
+        b.setText("Dynamic");
+        b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+        Button b2 = new Button(mContext);
+        b2.setText("Dynamic Button");
+        b2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+/* Add Button to row. */
+        tr.addView(b, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+        tr.addView(b2, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+/* Add row to TableLayout. */
+        tl.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
     }
 
     private void sendMessage() {
         if (mMessageTask != null) {
             return;
-        }
-        mMessageView.setError(null);
-        String text = mMessageView.getText().toString();
-
-        if (TextUtils.isEmpty(text)) {
-            mMessageView.setError("Empty message");
-            return;
-        }
-
-        if (MessageUtil.containsPolishCharacters(text)) {
-            text = MessageUtil.normalizePolishCharacters(text);
         }
 
         mSendButton.setEnabled(false);
@@ -127,7 +103,7 @@ public class MessageFragment extends Fragment {
 
     class MessageTask extends AsyncTask<Void, Void, Boolean> {
 
-//        private final Message message;
+        //        private final Message message;
         private String connectionErrorMessage = "";
         private boolean tokenExpired = false;
 

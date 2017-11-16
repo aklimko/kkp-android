@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
+import pl.adamklimko.kkpandroid.activity.DrawerActivity;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
 public class ProfilePictureTask extends AsyncTask<String, Void, Bitmap> {
@@ -31,8 +32,7 @@ public class ProfilePictureTask extends AsyncTask<String, Void, Bitmap> {
     }
 
     private void informToRedrawProfilePictureViewInDrawer() {
-        Intent intent = new Intent("redraw_picture");
-        intent.putExtra("message", "This is my message!");
+        final Intent intent = new Intent(DrawerActivity.REDRAW_PICTURE);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 }

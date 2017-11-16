@@ -22,8 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.fragment.ConfigurationFragment;
-import pl.adamklimko.kkpandroid.fragment.MessageFragment;
+import pl.adamklimko.kkpandroid.fragment.CleanedFragment;
+import pl.adamklimko.kkpandroid.fragment.BoughtFragment;
 import pl.adamklimko.kkpandroid.rest.ProfilePictureTask;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.util.KeyboardUtil;
@@ -37,10 +37,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     private ActionBarDrawerToggle mDrawerToggle;
     private ImageView mProfilePicture;
     private TextView mUsername;
-    private MessageFragment messageFragment;
-    private ConfigurationFragment configurationFragment;
+    private BoughtFragment boughtFragment;
+    private CleanedFragment cleanedFragment;
     private FragmentManager manager;
 
+    public static final String UPDATE_PROFILE = "update_profile";
     private BroadcastReceiver mProfileUpdatedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -48,6 +49,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         }
     };
 
+    public static final String REDRAW_PICTURE = "redraw_picture";
     private BroadcastReceiver mNewProfilePictureSaved = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -82,9 +84,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
         // register to receive messages
         LocalBroadcastManager.getInstance(this).registerReceiver(mProfileUpdatedReceiver,
-                new IntentFilter("update_profile"));
+                new IntentFilter(UPDATE_PROFILE));
         LocalBroadcastManager.getInstance(this).registerReceiver(mNewProfilePictureSaved,
-                new IntentFilter("redraw_picture"));
+                new IntentFilter(REDRAW_PICTURE));
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, 0, 0);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
@@ -104,8 +106,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        messageFragment = MessageFragment.newInstance();
-        configurationFragment = ConfigurationFragment.newInstance();
+        boughtFragment = BoughtFragment.newInstance();
+        cleanedFragment = CleanedFragment.newInstance();
         manager = getSupportFragmentManager();
     }
 
@@ -170,11 +172,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
         switch (id) {
             case R.id.nav_bought:
-                switchToFragment(messageFragment);
+                switchToFragment(boughtFragment);
                 switchCheckedItem(id);
                 break;
             case R.id.nav_cleaned:
-                switchToFragment(configurationFragment);
+                switchToFragment(cleanedFragment);
                 switchCheckedItem(id);
                 break;
             case R.id.nav_settings:
@@ -265,7 +267,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         unregisterReceivers();
         mNewProfilePictureSaved = null;
         mProfileUpdatedReceiver = null;
@@ -274,9 +275,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         mDrawerLayout = null;
         mDrawerToggle = null;
         manager = null;
-        messageFragment = null;
-        configurationFragment = null;
+        boughtFragment = null;
+        cleanedFragment = null;
         mUsername = null;
         mProfilePicture = null;
+        super.onDestroy();
     }
 }
