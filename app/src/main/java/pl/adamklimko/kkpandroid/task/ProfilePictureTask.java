@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.rest;
+package pl.adamklimko.kkpandroid.task;
 
 import android.content.Context;
 import android.content.Intent;

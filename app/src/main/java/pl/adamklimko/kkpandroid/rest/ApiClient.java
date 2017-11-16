@@ -28,7 +28,6 @@ public class ApiClient {
 
     private static Retrofit retrofit = builder.build();
 
-    // TODO: write another interceptor for network check and rewrite this shit
     public static <S> S createService(Class<S> serviceClass, Context context) {
         httpClient.addNetworkInterceptor(new NetworkInterceptor(context));
         builder.client(httpClient.build());

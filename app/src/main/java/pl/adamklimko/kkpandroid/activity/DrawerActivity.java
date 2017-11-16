@@ -24,7 +24,7 @@ import android.widget.Toast;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.fragment.CleanedFragment;
 import pl.adamklimko.kkpandroid.fragment.BoughtFragment;
-import pl.adamklimko.kkpandroid.rest.ProfilePictureTask;
+import pl.adamklimko.kkpandroid.task.ProfilePictureTask;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.util.KeyboardUtil;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
