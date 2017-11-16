@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
@@ -169,15 +170,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
         switch (id) {
             case R.id.nav_bought:
-                manager.beginTransaction()
-                        .replace(R.id.fragment_container, messageFragment)
-                        .commit();
+                switchToFragment(messageFragment);
                 switchCheckedItem(id);
                 break;
             case R.id.nav_cleaned:
-                manager.beginTransaction()
-                        .replace(R.id.fragment_container, configurationFragment)
-                        .commit();
+                switchToFragment(configurationFragment);
                 switchCheckedItem(id);
                 break;
             case R.id.nav_settings:
@@ -186,6 +183,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
             case R.id.nav_logout:
                 switchToLoginActivity();
                 UserSession.resetSession();
+                unregisterReceivers();
                 Toast.makeText(getApplicationContext(), "Successful logout", Toast.LENGTH_SHORT).show();
                 break;
         }
@@ -196,6 +194,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
     private boolean isItemChecked(final int id) {
         return navigationView.getMenu().findItem(id).isChecked();
+    }
+
+    private void switchToFragment(Fragment fragment) {
+        manager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 
     private void switchCheckedItem(int id) {
@@ -225,6 +229,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                 item.setChecked(false);
             }
         }
+    }
+
+    private void unregisterReceivers() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mProfileUpdatedReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mNewProfilePictureSaved);
     }
 
     private void updateProfile() {
@@ -257,7 +266,9 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mProfileUpdatedReceiver);
+        unregisterReceivers();
+        mNewProfilePictureSaved = null;
+        mProfileUpdatedReceiver = null;
         viewStub = null;
         navigationView = null;
         mDrawerLayout = null;
