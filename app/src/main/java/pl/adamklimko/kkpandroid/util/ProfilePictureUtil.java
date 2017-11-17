@@ -17,8 +17,6 @@ import java.net.URL;
 
 public class ProfilePictureUtil {
 
-    private static final String PROFILE_PICTURE = "profile_picture.jpg";
-
     public static Bitmap getProfilePicture(String facebookId) {
         try {
             URL url = new URL("https://graph.facebook.com//v2.10/" + facebookId + "/picture?type=square&height=300&width=300");
@@ -32,8 +30,8 @@ public class ProfilePictureUtil {
         }
     }
 
-    public static void saveProfilePicture(Bitmap bitmapImage, Context context) {
-        final File path = new File(context.getFilesDir(), PROFILE_PICTURE);
+    public static void saveProfilePicture(Context context, String username, Bitmap bitmapImage) {
+        final File path = new File(context.getFilesDir(), getUserPictureName(username));
 
         FileOutputStream fos = null;
         try {
@@ -54,7 +52,7 @@ public class ProfilePictureUtil {
 
     public static Bitmap loadImageFromStorage(Context context) {
         try {
-            final File profilePicture = new File(context.getFilesDir(), PROFILE_PICTURE);
+            final File profilePicture = new File(context.getFilesDir(), getUserPictureName(UserSession.getUsername()));
             return BitmapFactory.decodeStream(new FileInputStream(profilePicture));
         } catch (FileNotFoundException e) {
             return null;
@@ -87,6 +85,10 @@ public class ProfilePictureUtil {
         if (profilePicture == null) {
             return;
         }
-        ProfilePictureUtil.saveProfilePicture(profilePicture, context);
+        ProfilePictureUtil.saveProfilePicture(context, UserSession.getUsername(), profilePicture);
+    }
+
+    private static String getUserPictureName(String username) {
+        return username + ".jpg";
     }
 }

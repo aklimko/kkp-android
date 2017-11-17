@@ -5,8 +5,14 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import pl.adamklimko.kkpandroid.model.Profile;
 import pl.adamklimko.kkpandroid.model.Token;
+import pl.adamklimko.kkpandroid.model.UserData;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class UserSession {
     
@@ -17,6 +23,7 @@ public class UserSession {
     public static final String FACEBOOK_ID = "facebook_id";
     private static final String TOKEN = "token";
     private static final String EXPIRATION_DATE = "expiration_date";
+    private static final String USERS_DATA = "users_data";
 
     private static boolean firstStarted = true;
 
@@ -58,9 +65,9 @@ public class UserSession {
     }
 
     public static void resetSession() {
-        final Editor editor = preferences.edit();
-        editor.clear();
-        editor.apply();
+        preferences.edit()
+                .clear()
+                .apply();
     }
 
     public static boolean isAppJustStarted() {
@@ -85,5 +92,24 @@ public class UserSession {
         }
 
         editor.apply();
+    }
+
+    public static void setUsersData(List<UserData> usersData) {
+        final Gson gson = new Gson();
+        String data = gson.toJson(usersData);
+        final Editor editor = preferences.edit();
+        editor.putString(USERS_DATA, data);
+        editor.apply();
+    }
+
+    public static List<UserData> getUserData() {
+        final Gson gson = new Gson();
+        String data = preferences.getString(USERS_DATA, null);
+        if (data == null) {
+            return null;
+        }
+        // Trick to get generic list type
+        final Type listType = new TypeToken<List<UserData>>(){}.getType();
+        return gson.fromJson(data, listType);
     }
 }

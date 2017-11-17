@@ -253,7 +253,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     }
 
     private void updateProfilePicture() {
-        final ProfilePictureTask profilePictureTask = new ProfilePictureTask(getApplicationContext());
+        final ProfilePictureTask profilePictureTask = new ProfilePictureTask(getApplicationContext(), UserSession.getUsername());
         // Downloads and updates profile picture
         profilePictureTask.execute(UserSession.getFacebookId());
     }

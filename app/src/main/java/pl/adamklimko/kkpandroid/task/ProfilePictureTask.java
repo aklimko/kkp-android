@@ -10,9 +10,11 @@ import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
 public class ProfilePictureTask extends AsyncTask<String, Void, Bitmap> {
     private Context mContext;
+    private String username;
 
-    public ProfilePictureTask(Context mContext) {
+    public ProfilePictureTask(Context mContext, String username) {
         this.mContext = mContext;
+        this.username = username;
     }
 
     @Override
@@ -26,7 +28,7 @@ public class ProfilePictureTask extends AsyncTask<String, Void, Bitmap> {
         if (bitmap == null) {
             return;
         }
-        ProfilePictureUtil.saveProfilePicture(bitmap, mContext);
+        ProfilePictureUtil.saveProfilePicture(mContext, username, bitmap);
         informToRedrawProfilePictureViewInDrawer();
         super.onPostExecute(bitmap);
     }

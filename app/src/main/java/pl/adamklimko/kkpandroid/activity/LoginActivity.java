@@ -22,6 +22,7 @@ import pl.adamklimko.kkpandroid.model.User;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.rest.KkpService;
+import pl.adamklimko.kkpandroid.task.UsersDataTask;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -217,6 +218,7 @@ public class LoginActivity extends AppCompatActivity {
                     return false;
                 }
                 Log.i("LOGIN", "Successful login");
+                saveUsername();
                 UserSession.setTokenInPreferences(token);
                 ProfilePictureUtil.getUserProfile(getApplicationContext());
                 return true;
@@ -240,6 +242,7 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
             if (success) {
+                getUsersData();
                 switchToPostLoginActivity();
             } else {
                 mPasswordView.requestFocus();
@@ -247,9 +250,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
+        private void getUsersData() {
+            final UsersDataTask usersDataTask = new UsersDataTask(getApplicationContext());
+            usersDataTask.execute((Void) null);
+        }
+
         private void switchToPostLoginActivity() {
             informAboutSuccessfulLogin();
-            saveUsername();
             startPostLoginActivity();
             closeLoginActivity();
         }
