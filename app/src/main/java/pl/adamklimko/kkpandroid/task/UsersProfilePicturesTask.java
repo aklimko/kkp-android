@@ -31,12 +31,20 @@ public class UsersProfilePicturesTask extends AsyncTask<Void, Void, Map<String, 
 
     @Override
     protected void onPostExecute(Map<String, Bitmap> usersProfilePictures) {
-
-        updateProfilePictures();
+        saveProfilePicturesInStorage(usersProfilePictures);
+        informToUpdateProfilePictures();
         super.onPostExecute(usersProfilePictures);
     }
 
-    private void updateProfilePictures() {
+    private void saveProfilePicturesInStorage(Map<String, Bitmap> usersProfilePictures) {
+        for (Map.Entry<String, Bitmap> entry : usersProfilePictures.entrySet()) {
+            if (entry.getValue() != null) {
+                ProfilePictureUtil.saveProfilePicture(mContext, entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    private void informToUpdateProfilePictures() {
         final Intent intent = new Intent(MainActivity.USERS_PROFILE_PICTURES);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }

@@ -1,17 +1,15 @@
 package pl.adamklimko.kkpandroid.activity;
 
-import android.support.v4.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.fragment.BoughtFragment;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.KkpService;
-import pl.adamklimko.kkpandroid.rest.UserSession;
 
 public class MainActivity extends DrawerActivity implements FragmentCommunicator {
 
@@ -40,7 +38,8 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         mUsersProfilePicturesReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                // TODO: Update pictures icons on fragment
+                //TODO: Rewrite upptask to use userdata list
+//                new UsersProfilePicturesTask(getApplicationContext())
             }
         };
 
