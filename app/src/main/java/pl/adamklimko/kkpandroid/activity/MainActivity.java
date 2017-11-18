@@ -33,6 +33,7 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
             @Override
             public void onReceive(Context context, Intent intent) {
                 MainActivity.super.getBoughtFragment().drawTable();
+
             }
         };
 

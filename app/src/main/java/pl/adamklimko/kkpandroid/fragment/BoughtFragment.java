@@ -2,6 +2,7 @@ package pl.adamklimko.kkpandroid.fragment;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,6 +31,10 @@ public class BoughtFragment extends Fragment {
 
     private KkpService kkpService;
     private FragmentCommunicator fragmentCommunicator;
+
+    private List<UserData> usersData;
+    private TableLayout boughtProducts;
+    private TableRow[] rows;
 
     public BoughtFragment() {
         // Required empty public constructor
@@ -62,10 +67,13 @@ public class BoughtFragment extends Fragment {
             return;
         }
         drawTable();
+        drawUsersProfiles();
+        drawBoughtData();
+        drawTotalData();
     }
 
     public void drawTable() {
-        final TableLayout boughtProducts = getView().findViewById(R.id.table_bought);
+        boughtProducts = getView().findViewById(R.id.table_bought);
         boughtProducts.setStretchAllColumns(true);
 
         GradientDrawable gd = new GradientDrawable(
@@ -75,17 +83,21 @@ public class BoughtFragment extends Fragment {
         gd.setLevel(2);
         //boughtProducts.setBackgroundDrawable(gd);
 
-        final TableRow[] rows = new TableRow[BoughtProducts.getNumberOfProducts() + 1];
+        rows = new TableRow[BoughtProducts.getNumberOfProducts() + 2];
         rows[0] = new TableRow(mContext);
+        rows[rows.length - 1] = new TableRow(mContext);
         rows[0].addView(new TextView(mContext), new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.5f));
 
-        final List<UserData> usersData = UserSession.getUsersData();
+        usersData = UserSession.getUsersData();
+    }
+
+    private void drawUsersProfiles() {
         if (usersData == null) {
             return;
         }
         for (UserData userData : usersData) {
             TextView username = new TextView(mContext);
-            username.setBackgroundDrawable(gd);
+//            username.setBackgroundDrawable(gd);
             username.setText(userData.getUsername());
             username.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
             username.setGravity(Gravity.CENTER);
@@ -93,20 +105,15 @@ public class BoughtFragment extends Fragment {
             rows[0].addView(username, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
         }
         boughtProducts.addView(rows[0]);
+    }
 
+    private void drawBoughtData() {
         String[] productsNames = BoughtProducts.getProductsNames();
         for (int i = 1; i <= productsNames.length; i++) {
             rows[i] = new TableRow(mContext);
             final TableRow row = rows[i];
-            TableLayout.LayoutParams tableRowParams =
-                    new TableLayout.LayoutParams
-                            (TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-
-            tableRowParams.setMargins(3, 3, 2, 10);
-            row.setLayoutParams(tableRowParams);
-            //row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+            row.setGravity(Gravity.CENTER);
             final TextView product = new TextView(mContext);
-            product.setBackgroundDrawable(gd);
             product.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
             product.setGravity(Gravity.CENTER);
             product.setText(productsNames[i - 1]);
@@ -121,6 +128,25 @@ public class BoughtFragment extends Fragment {
 
             boughtProducts.addView(row);
         }
+    }
+
+    private void drawTotalData() {
+        final TableRow totalRow = rows[rows.length - 1];
+        totalRow.setGravity(Gravity.CENTER);
+        TextView total = new TextView(mContext);
+        total.setText("Total");
+        total.setGravity(Gravity.CENTER);
+        total.setTypeface(total.getTypeface(), Typeface.BOLD);
+        totalRow.addView(total, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.5f));
+
+        for (UserData userData : usersData) {
+            TextView value = new TextView(mContext);
+            value.setText(Integer.toString(userData.getBoughtProducts().getSumValues()));
+            value.setGravity(Gravity.CENTER);
+            value.setTypeface(value.getTypeface(), Typeface.BOLD);
+            totalRow.addView(value, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+        }
+        boughtProducts.addView(totalRow);
     }
 
     @Override

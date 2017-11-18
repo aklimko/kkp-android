@@ -41,6 +41,10 @@ public class BoughtProducts {
         }
     }
 
+    public int getSumValues() {
+        return toiletPaper + dishSoap + trashBag + soap + sugar;
+    }
+
     public int getToiletPaper() {
         return toiletPaper;
     }
