@@ -281,4 +281,8 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         mProfilePicture = null;
         super.onDestroy();
     }
+
+    public BoughtFragment getBoughtFragment() {
+        return boughtFragment;
+    }
 }

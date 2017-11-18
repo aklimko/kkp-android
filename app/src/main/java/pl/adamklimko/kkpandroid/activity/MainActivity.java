@@ -1,5 +1,6 @@
 package pl.adamklimko.kkpandroid.activity;
 
+import android.support.v4.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,8 +32,7 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         mUsersDataReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                // TODO: Draw data on fragment
-                UserSession.getUserData();
+                MainActivity.super.getBoughtFragment().drawTable();
             }
         };
 
@@ -49,11 +49,15 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
                 new IntentFilter(USERS_DATA));
 
         if (savedInstanceState == null) {
-            final BoughtFragment boughtFragment = BoughtFragment.newInstance();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, boughtFragment)
-                    .commit();
+            Fragment boughtFragment = super.getBoughtFragment();
+            switchToFragment(boughtFragment);
         }
+    }
+
+    private void switchToFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 
     @Override

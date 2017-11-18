@@ -102,7 +102,7 @@ public class UserSession {
         editor.apply();
     }
 
-    public static List<UserData> getUserData() {
+    public static List<UserData> getUsersData() {
         final Gson gson = new Gson();
         String data = preferences.getString(USERS_DATA, null);
         if (data == null) {

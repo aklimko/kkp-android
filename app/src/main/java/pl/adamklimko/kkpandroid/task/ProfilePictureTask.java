@@ -9,8 +9,8 @@ import pl.adamklimko.kkpandroid.activity.DrawerActivity;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
 public class ProfilePictureTask extends AsyncTask<String, Void, Bitmap> {
-    private Context mContext;
-    private String username;
+    private final Context mContext;
+    private final String username;
 
     public ProfilePictureTask(Context mContext, String username) {
         this.mContext = mContext;

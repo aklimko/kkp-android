@@ -6,11 +6,11 @@ public class UserData {
     private BoughtProducts boughtProducts;
     private CleanedRooms cleanedRooms;
 
-    public String getUser() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUser(String user) {
+    public void setUsername(String user) {
         this.username = user;
     }
 

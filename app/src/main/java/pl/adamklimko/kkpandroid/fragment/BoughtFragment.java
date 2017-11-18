@@ -1,35 +1,35 @@
 package pl.adamklimko.kkpandroid.fragment;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.AsyncTask;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.activity.FragmentCommunicator;
-import pl.adamklimko.kkpandroid.activity.LoginActivity;
 import pl.adamklimko.kkpandroid.activity.MainActivity;
-import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.model.BoughtProducts;
+import pl.adamklimko.kkpandroid.model.UserData;
 import pl.adamklimko.kkpandroid.rest.KkpService;
+import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.util.DynamicSizeUtil;
+
+import java.util.List;
 
 public class BoughtFragment extends Fragment {
 
     private Context mContext;
 
-    private MessageTask mMessageTask;
     private KkpService kkpService;
     private FragmentCommunicator fragmentCommunicator;
-
-    private EditText mMessageView;
-    private Button mSendButton;
 
     public BoughtFragment() {
         // Required empty public constructor
@@ -61,137 +61,71 @@ public class BoughtFragment extends Fragment {
         if (getView() == null) {
             return;
         }
-
-        final TableLayout tl = getView().findViewById(R.id.table_bought);
-        tl.setStretchAllColumns(true);
-/* Create a new row to be added. */
-        TableRow tr = new TableRow(mContext);
-        tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-/* Create a Button to be the row-content. */
-        Button b = new Button(mContext);
-        b.setText("Dynamic");
-        b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-        Button b2 = new Button(mContext);
-        b2.setText("Dynamic Button");
-        b2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-/* Add Button to row. */
-        tr.addView(b, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
-        tr.addView(b2, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
-/* Add row to TableLayout. */
-        tl.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        drawTable();
     }
 
-    private void sendMessage() {
-        if (mMessageTask != null) {
+    public void drawTable() {
+        final TableLayout boughtProducts = getView().findViewById(R.id.table_bought);
+        boughtProducts.setStretchAllColumns(true);
+
+        GradientDrawable gd = new GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[] {Color.parseColor("#C0C0C0"), Color.parseColor("#505050")});
+        gd.setGradientCenter(0.f, 1.f);
+        gd.setLevel(2);
+        //boughtProducts.setBackgroundDrawable(gd);
+
+        final TableRow[] rows = new TableRow[BoughtProducts.getNumberOfProducts() + 1];
+        rows[0] = new TableRow(mContext);
+        rows[0].addView(new TextView(mContext), new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.5f));
+
+        final List<UserData> usersData = UserSession.getUsersData();
+        if (usersData == null) {
             return;
         }
+        for (UserData userData : usersData) {
+            TextView username = new TextView(mContext);
+            username.setBackgroundDrawable(gd);
+            username.setText(userData.getUsername());
+            username.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
+            username.setGravity(Gravity.CENTER);
+            username.setTextSize(11);
+            rows[0].addView(username, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+        }
+        boughtProducts.addView(rows[0]);
 
-        mSendButton.setEnabled(false);
+        String[] productsNames = BoughtProducts.getProductsNames();
+        for (int i = 1; i <= productsNames.length; i++) {
+            rows[i] = new TableRow(mContext);
+            final TableRow row = rows[i];
+            TableLayout.LayoutParams tableRowParams =
+                    new TableLayout.LayoutParams
+                            (TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
 
-//        final Message message = new Message(text);
-//        mMessageTask = new MessageTask(message);
-//        mMessageTask.execute((Void) null);
+            tableRowParams.setMargins(3, 3, 2, 10);
+            row.setLayoutParams(tableRowParams);
+            //row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+            final TextView product = new TextView(mContext);
+            product.setBackgroundDrawable(gd);
+            product.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
+            product.setGravity(Gravity.CENTER);
+            product.setText(productsNames[i - 1]);
+            row.addView(product, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.5f));
+
+            for (UserData userData : usersData) {
+                TextView value = new TextView(mContext);
+                value.setText(Integer.toString(userData.getBoughtProducts().getFieldValue(i - 1)));
+                value.setGravity(Gravity.CENTER);
+                row.addView(value, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+            }
+
+            boughtProducts.addView(row);
+        }
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        mSendButton = null;
-        mMessageView = null;
         mContext = null;
-    }
-
-    class MessageTask extends AsyncTask<Void, Void, Boolean> {
-
-        //        private final Message message;
-        private String connectionErrorMessage = "";
-        private boolean tokenExpired = false;
-
-//        MessageTask(Message message) {
-//            this.message = message;
-//        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-//            final Call<Message> messageCall = kkpService.postMessage(message);
-//            final Response<Message> response;
-//            try {
-//                response = messageCall.execute();
-//            } catch (NoNetworkConnectedException e) {
-//                connectionErrorMessage = "No network connection";
-//                return false;
-//            } catch (SocketTimeoutException e) {
-//                connectionErrorMessage = "Cannot connect to a server";
-//                return false;
-//            } catch (IOException e) {
-//                return false;
-//            }
-//            if (!response.isSuccessful()) {
-//                tokenExpired = true;
-//                return false;
-//            }
-//            if (response.code() == 200) {
-//                return true;
-//            }
-//            if (response.code() == 403 || response.code() == 401) {
-//                tokenExpired = true;
-//            }
-//            return false;
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mMessageTask = null;
-            if (!TextUtils.isEmpty(connectionErrorMessage)) {
-                Toast.makeText(mContext, connectionErrorMessage, Toast.LENGTH_SHORT).show();
-            }
-            if (tokenExpired) {
-                UserSession.resetSession();
-                showTokenExpired();
-            }
-            if (success) {
-                showMessageSentDialog();
-            }
-            mSendButton.setEnabled(true);
-        }
-
-        private void showTokenExpired() {
-            final Intent login = new Intent(getContext(), LoginActivity.class);
-
-            final AlertDialog alertDialog = new AlertDialog.Builder(mContext)
-                    .setTitle("Token expired")
-                    .setMessage("Your token expired. Please log in.")
-                    .setPositiveButton("OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    startActivity(login);
-                                    getActivity().finish();
-                                }
-                            })
-                    .create();
-            alertDialog.show();
-        }
-
-        private void showMessageSentDialog() {
-            final AlertDialog alertDialog = new AlertDialog.Builder(mContext)
-                    .setTitle("Success")
-                    .setMessage("Message has been sent.")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            mMessageView.setText("");
-                            dialog.dismiss();
-                        }
-                    })
-                    .create();
-            alertDialog.show();
-        }
-
-        @Override
-        protected void onCancelled() {
-            mMessageTask = null;
-        }
+        super.onDestroy();
     }
 }
