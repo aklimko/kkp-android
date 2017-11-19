@@ -113,12 +113,15 @@ public class BoughtFragment extends Fragment {
         for (UserData userData : usersData) {
             final String username = userData.getUsername();
             if (usersWithValidPictures.contains(username)) {
-                ImageView profilePicture = new ImageView(mContext);
+                CircularImageView profilePicture = new CircularImageView(mContext);
                 profilePicture.setImageBitmap(ProfilePictureUtil.getUserPictureFromStorage(mContext, username));
-                int size = DynamicSizeUtil.getPixelsFromDp(mContext, 35);
-                profilePicture.setMaxHeight(size);
-                profilePicture.setLayoutParams(new TableRow.LayoutParams(size, size));
-                rows[0].addView(profilePicture, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+                profilePicture.setBorderWidth(0);
+                TableRow.LayoutParams layoutParamsProfile = new TableRow.LayoutParams();
+                layoutParamsProfile.gravity = Gravity.CENTER;
+                profilePicture.setLayoutParams(layoutParamsProfile);
+                final TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1f);
+                layoutParams.gravity = Gravity.CENTER;
+                rows[0].addView(profilePicture, layoutParams);
             } else {
                 TextView usernameText = new TextView(mContext);
                 usernameText.setText(userData.getUsername());
@@ -159,6 +162,7 @@ public class BoughtFragment extends Fragment {
         totalRow.setGravity(Gravity.CENTER);
         TextView total = new TextView(mContext);
         total.setText("Total");
+        total.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
         total.setGravity(Gravity.CENTER);
         total.setTypeface(total.getTypeface(), Typeface.BOLD);
         totalRow.addView(total, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.5f));

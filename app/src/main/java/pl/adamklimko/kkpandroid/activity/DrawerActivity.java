@@ -184,7 +184,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
                 break;
             case R.id.nav_logout:
                 switchToLoginActivity();
-                UserSession.resetSession();
+                UserSession.resetSession(getApplicationContext());
                 unregisterReceivers();
                 Toast.makeText(getApplicationContext(), "Successful logout", Toast.LENGTH_SHORT).show();
                 break;
