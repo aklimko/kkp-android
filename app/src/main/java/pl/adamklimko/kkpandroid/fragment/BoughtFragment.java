@@ -11,9 +11,11 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import com.mikhaellopez.circularimageview.CircularImageView;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.activity.FragmentCommunicator;
 import pl.adamklimko.kkpandroid.activity.MainActivity;
@@ -22,8 +24,10 @@ import pl.adamklimko.kkpandroid.model.UserData;
 import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.util.DynamicSizeUtil;
+import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
 import java.util.List;
+import java.util.Set;
 
 public class BoughtFragment extends Fragment {
 
@@ -66,19 +70,31 @@ public class BoughtFragment extends Fragment {
         if (getView() == null) {
             return;
         }
-        drawTable();
-        drawUsersProfiles();
-        drawBoughtData();
-        drawTotalData();
+        drawWholeTable();
     }
 
-    public void drawTable() {
+    public void redrawWholeTable() {
+        boughtProducts.removeAllViews();
+        drawWholeTable();
+    }
+
+    private void drawWholeTable() {
+        drawTable();
+        usersData = UserSession.getUsersData();
+        if (usersData != null) {
+            drawUsersProfiles();
+            drawBoughtData();
+            drawTotalData();
+        }
+    }
+
+    private void drawTable() {
         boughtProducts = getView().findViewById(R.id.table_bought);
         boughtProducts.setStretchAllColumns(true);
 
         GradientDrawable gd = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[] {Color.parseColor("#C0C0C0"), Color.parseColor("#505050")});
+                new int[]{Color.parseColor("#C0C0C0"), Color.parseColor("#505050")});
         gd.setGradientCenter(0.f, 1.f);
         gd.setLevel(2);
         //boughtProducts.setBackgroundDrawable(gd);
@@ -87,22 +103,30 @@ public class BoughtFragment extends Fragment {
         rows[0] = new TableRow(mContext);
         rows[rows.length - 1] = new TableRow(mContext);
         rows[0].addView(new TextView(mContext), new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.5f));
-
-        usersData = UserSession.getUsersData();
     }
 
     private void drawUsersProfiles() {
         if (usersData == null) {
             return;
         }
+        final Set<String> usersWithValidPictures = UserSession.getUsersValidPictures();
         for (UserData userData : usersData) {
-            TextView username = new TextView(mContext);
-//            username.setBackgroundDrawable(gd);
-            username.setText(userData.getUsername());
-            username.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
-            username.setGravity(Gravity.CENTER);
-            username.setTextSize(11);
-            rows[0].addView(username, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+            final String username = userData.getUsername();
+            if (usersWithValidPictures.contains(username)) {
+                ImageView profilePicture = new ImageView(mContext);
+                profilePicture.setImageBitmap(ProfilePictureUtil.getUserPictureFromStorage(mContext, username));
+                int size = DynamicSizeUtil.getPixelsFromDp(mContext, 35);
+                profilePicture.setMaxHeight(size);
+                profilePicture.setLayoutParams(new TableRow.LayoutParams(size, size));
+                rows[0].addView(profilePicture, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+            } else {
+                TextView usernameText = new TextView(mContext);
+                usernameText.setText(userData.getUsername());
+                usernameText.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
+                usernameText.setGravity(Gravity.CENTER);
+                usernameText.setTextSize(11);
+                rows[0].addView(usernameText, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+            }
         }
         boughtProducts.addView(rows[0]);
     }

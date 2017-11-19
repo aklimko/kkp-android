@@ -12,7 +12,9 @@ import pl.adamklimko.kkpandroid.model.Token;
 import pl.adamklimko.kkpandroid.model.UserData;
 
 import java.lang.reflect.Type;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserSession {
     
@@ -24,6 +26,7 @@ public class UserSession {
     private static final String TOKEN = "token";
     private static final String EXPIRATION_DATE = "expiration_date";
     private static final String USERS_DATA = "users_data";
+    public static final String USERS_VALID_PICTURES = "users_valid_pictures";
 
     private static boolean firstStarted = true;
 
@@ -111,5 +114,16 @@ public class UserSession {
         // Trick to get generic list type
         final Type listType = new TypeToken<List<UserData>>(){}.getType();
         return gson.fromJson(data, listType);
+    }
+
+    public static void setUsersValidPictures(Set<String> usersValidPictures) {
+        final Editor editor = preferences.edit();
+        editor.putStringSet(USERS_VALID_PICTURES, usersValidPictures);
+        editor.apply();
+    }
+
+    public static Set<String> getUsersValidPictures() {
+        Set<String> defaultValue = new HashSet<>();
+        return preferences.getStringSet(USERS_VALID_PICTURES, defaultValue);
     }
 }

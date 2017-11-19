@@ -10,6 +10,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.KkpService;
+import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.task.UsersProfilePicturesTask;
+
+import java.util.Arrays;
 
 public class MainActivity extends DrawerActivity implements FragmentCommunicator {
 
@@ -30,8 +34,8 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         mUsersDataReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                MainActivity.super.getBoughtFragment().drawTable();
-
+                MainActivity.super.getBoughtFragment().redrawWholeTable();
+                new UsersProfilePicturesTask(getApplicationContext(), UserSession.getUsersData()).execute((Void) null);
             }
         };
 
@@ -39,12 +43,14 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
             @Override
             public void onReceive(Context context, Intent intent) {
                 //TODO: Rewrite upptask to use userdata list
-//                new UsersProfilePicturesTask(getApplicationContext())
+                MainActivity.super.getBoughtFragment().redrawWholeTable();
+//                MainActivity.super.getBoughtFragment().drawUsersProfiles();
+//                new UsersProfilePicturesTask(getApplicationContext(), UserSession.getUsersData());
             }
         };
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mUsersProfilePicturesReceiver,
-                new IntentFilter(UPDATE_PROFILE));
+                new IntentFilter(USERS_PROFILE_PICTURES));
         LocalBroadcastManager.getInstance(this).registerReceiver(mUsersDataReceiver,
                 new IntentFilter(USERS_DATA));
 

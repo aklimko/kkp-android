@@ -19,7 +19,7 @@ public class ProfilePictureUtil {
 
     public static Bitmap getProfilePicture(String facebookId) {
         try {
-            URL url = new URL("https://graph.facebook.com//v2.10/" + facebookId + "/picture?type=square&height=300&width=300");
+            final URL url = new URL("https://graph.facebook.com//v2.10/" + facebookId + "/picture?type=square&height=300&width=300");
             final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
@@ -50,9 +50,9 @@ public class ProfilePictureUtil {
         }
     }
 
-    public static Bitmap loadImageFromStorage(Context context) {
+    public static Bitmap getUserPictureFromStorage(Context context, String username) {
         try {
-            final File profilePicture = new File(context.getFilesDir(), getUserPictureName(UserSession.getUsername()));
+            final File profilePicture = new File(context.getFilesDir(), getUserPictureName(username));
             return BitmapFactory.decodeStream(new FileInputStream(profilePicture));
         } catch (FileNotFoundException e) {
             return null;

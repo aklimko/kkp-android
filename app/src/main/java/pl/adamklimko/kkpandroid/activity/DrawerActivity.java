@@ -77,7 +77,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         }
 
         mProfilePicture = v.findViewById(R.id.header_image);
-        final Bitmap profile = ProfilePictureUtil.loadImageFromStorage(getApplicationContext());
+        final Bitmap profile = ProfilePictureUtil.getUserPictureFromStorage(getApplicationContext(), UserSession.getUsername());
         if (profile != null) {
             mProfilePicture.setImageBitmap(profile);
         }
@@ -259,7 +259,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     }
 
     private void redrawProfilePicture() {
-        final Bitmap profile = ProfilePictureUtil.loadImageFromStorage(getApplicationContext());
+        final Bitmap profile = ProfilePictureUtil.getUserPictureFromStorage(getApplicationContext(), UserSession.getUsername());
         if (profile != null) {
             mProfilePicture.setImageBitmap(profile);
         }

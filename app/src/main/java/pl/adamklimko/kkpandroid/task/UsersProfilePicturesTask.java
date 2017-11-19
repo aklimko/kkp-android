@@ -6,25 +6,31 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import pl.adamklimko.kkpandroid.activity.MainActivity;
+import pl.adamklimko.kkpandroid.model.UserData;
+import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class UsersProfilePicturesTask extends AsyncTask<Void, Void, Map<String, Bitmap>> {
     private final Context mContext;
-    private final Map<String, String> usersProfiles;
+    private final List<UserData> usersData;
 
-    public UsersProfilePicturesTask(Context mContext, Map<String, String> usersProfiles) {
+    public UsersProfilePicturesTask(Context mContext, List<UserData> usersData) {
         this.mContext = mContext;
-        this.usersProfiles = usersProfiles;
+        this.usersData = usersData;
     }
 
     @Override
     protected Map<String, Bitmap> doInBackground(Void... params) {
-        final Map<String, Bitmap> usersProfilePictures = new TreeMap<>();
-        for (Map.Entry<String, String> entry : usersProfiles.entrySet()) {
-            usersProfilePictures.put(entry.getKey(), ProfilePictureUtil.getProfilePicture(entry.getValue()));
+        final Map<String, Bitmap> usersProfilePictures = new HashMap<>(usersData.size());
+        for (UserData userData : usersData) {
+            String facebookId = userData.getProfile().getFacebookId();
+            if (facebookId != null) {
+                usersProfilePictures.put(userData.getUsername(), ProfilePictureUtil.getProfilePicture(facebookId));
+            }
         }
         return usersProfilePictures;
     }
@@ -32,7 +38,8 @@ public class UsersProfilePicturesTask extends AsyncTask<Void, Void, Map<String, 
     @Override
     protected void onPostExecute(Map<String, Bitmap> usersProfilePictures) {
         saveProfilePicturesInStorage(usersProfilePictures);
-        informToUpdateProfilePictures();
+        saveUsersValidPicturesInPrefereces(usersProfilePictures);
+        informToUpdateProfilePictures(usersProfilePictures);
         super.onPostExecute(usersProfilePictures);
     }
 
@@ -44,7 +51,11 @@ public class UsersProfilePicturesTask extends AsyncTask<Void, Void, Map<String, 
         }
     }
 
-    private void informToUpdateProfilePictures() {
+    private void saveUsersValidPicturesInPrefereces(Map<String, Bitmap> usersProfilePictures) {
+        UserSession.setUsersValidPictures(usersProfilePictures.keySet());
+    }
+
+    private void informToUpdateProfilePictures(Map<String, Bitmap> usersProfilePictures) {
         final Intent intent = new Intent(MainActivity.USERS_PROFILE_PICTURES);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
