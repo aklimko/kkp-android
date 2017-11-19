@@ -11,9 +11,8 @@ import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.task.UsersDataTask;
 import pl.adamklimko.kkpandroid.task.UsersProfilePicturesTask;
-
-import java.util.Arrays;
 
 public class MainActivity extends DrawerActivity implements FragmentCommunicator {
 
@@ -30,6 +29,8 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         setContentView(R.layout.activity_main);
 
         kkpService = ApiClient.createServiceWithAuth(KkpService.class, this);
+
+        getUsersData();
 
         mUsersDataReceiver = new BroadcastReceiver() {
             @Override
@@ -58,6 +59,11 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
             Fragment boughtFragment = super.getBoughtFragment();
             switchToFragment(boughtFragment);
         }
+    }
+
+    private void getUsersData() {
+        final UsersDataTask usersDataTask = new UsersDataTask(getApplicationContext());
+        usersDataTask.execute((Void) null);
     }
 
     private void switchToFragment(Fragment fragment) {

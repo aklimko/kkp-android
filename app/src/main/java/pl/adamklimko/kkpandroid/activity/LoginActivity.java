@@ -242,17 +242,11 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
             if (success) {
-                getUsersData();
                 switchToPostLoginActivity();
             } else {
                 mPasswordView.requestFocus();
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
             }
-        }
-
-        private void getUsersData() {
-            final UsersDataTask usersDataTask = new UsersDataTask(getApplicationContext());
-            usersDataTask.execute((Void) null);
         }
 
         private void switchToPostLoginActivity() {
