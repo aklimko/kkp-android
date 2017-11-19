@@ -50,6 +50,10 @@ public class ProfilePictureUtil {
         }
     }
 
+    public static void deletePictureFromStorage(String name, Context context) {
+        context.deleteFile(name);
+    }
+
     public static Bitmap getUserPictureFromStorage(Context context, String username) {
         try {
             final File profilePicture = new File(context.getFilesDir(), getUserPictureName(username));
@@ -88,7 +92,7 @@ public class ProfilePictureUtil {
         ProfilePictureUtil.saveProfilePicture(context, UserSession.getUsername(), profilePicture);
     }
 
-    private static String getUserPictureName(String username) {
+    public static String getUserPictureName(String username) {
         return username + ".jpg";
     }
 }
