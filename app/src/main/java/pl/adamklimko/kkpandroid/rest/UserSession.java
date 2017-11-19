@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import pl.adamklimko.kkpandroid.model.Profile;
 import pl.adamklimko.kkpandroid.model.Token;
 import pl.adamklimko.kkpandroid.model.UserData;
+import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
 import java.lang.reflect.Type;
 import java.util.HashSet;
@@ -67,10 +68,18 @@ public class UserSession {
          return !TextUtils.isEmpty(preferences.getString(TOKEN, ""));
     }
 
-    public static void resetSession() {
+    public static void resetSession(Context context) {
+        deleteUserProfiles(context);
         preferences.edit()
                 .clear()
                 .apply();
+    }
+
+    private static void deleteUserProfiles(Context context) {
+        Set<String> validUserProfilePictures = getUsersValidPictures();
+        for (String name : validUserProfilePictures) {
+            ProfilePictureUtil.deletePictureFromStorage(ProfilePictureUtil.getUserPictureName(name), context);
+        }
     }
 
     public static boolean isAppJustStarted() {
@@ -90,7 +99,7 @@ public class UserSession {
         }
 
         final String facebookId = profile.getFacebookId();
-        if (!TextUtils.isEmpty(fullName)) {
+        if (!TextUtils.isEmpty(facebookId)) {
             editor.putString(FACEBOOK_ID, facebookId);
         }
 
