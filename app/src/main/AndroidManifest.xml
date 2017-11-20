@@ -14,7 +14,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name="pl.adamklimko.kkpandroid.activity.LoginActivity"
+                android:name=".activity.LoginActivity"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -22,10 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="pl.adamklimko.kkpandroid.activity.MainActivity">
+        <activity android:name=".activity.MainActivity">
         </activity>
         <activity
-                android:name="pl.adamklimko.kkpandroid.activity.SettingsActivity"
+                android:name=".activity.SettingsActivity"
                 android:label="@string/title_activity_settings">
         </activity>
     </application>

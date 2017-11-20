@@ -54,6 +54,7 @@ public class BoughtFragment extends Fragment {
         super.onAttach(context);
         mContext = context;
         fragmentCommunicator = (MainActivity) context;
+        kkpService = fragmentCommunicator.getKkpService();
     }
 
     @Override
@@ -65,8 +66,6 @@ public class BoughtFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        kkpService = fragmentCommunicator.getKkpService();
 
         if (getView() == null) {
             return;
