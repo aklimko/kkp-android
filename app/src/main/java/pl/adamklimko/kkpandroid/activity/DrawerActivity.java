@@ -8,24 +8,21 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.fragment.CleanedFragment;
-import pl.adamklimko.kkpandroid.fragment.BoughtFragment;
-import pl.adamklimko.kkpandroid.task.ProfilePictureTask;
 import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.task.ProfilePictureTask;
 import pl.adamklimko.kkpandroid.util.KeyboardUtil;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
@@ -33,14 +30,12 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
     private FrameLayout viewStub; //This is the framelayout to keep your content view
     private NavigationView navigationView; // The new navigation view from Android Design Library. Can inflate menu resources. Easy
+
     private DrawerLayout mDrawerLayout;
+
     private ActionBarDrawerToggle mDrawerToggle;
     private ImageView mProfilePicture;
     private TextView mUsername;
-    private BoughtFragment boughtFragment;
-    private CleanedFragment cleanedFragment;
-    private Fragment currentFragment;
-    private FragmentManager manager;
 
     public static final String UPDATE_PROFILE = "update_profile";
     private BroadcastReceiver mProfileUpdatedReceiver = new BroadcastReceiver() {
@@ -97,9 +92,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        boughtFragment = BoughtFragment.newInstance();
-        cleanedFragment = CleanedFragment.newInstance();
-        manager = getSupportFragmentManager();
+
     }
 
     @Override
@@ -152,80 +145,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        final int id = item.getItemId();
-
-        if (isItemChecked(id)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-            return true;
-        }
-
-        switch (id) {
-            case R.id.nav_bought:
-                switchToFragment(boughtFragment);
-                switchCheckedItem(id);
-                break;
-            case R.id.nav_cleaned:
-                switchToFragment(cleanedFragment);
-                switchCheckedItem(id);
-                break;
-            case R.id.nav_settings:
-                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
-                break;
-            case R.id.nav_logout:
-                switchToLoginActivity();
-                UserSession.resetSession(getApplicationContext());
-                unregisterReceivers();
-                Toast.makeText(getApplicationContext(), "Successful logout", Toast.LENGTH_SHORT).show();
-                break;
-        }
-
-        mDrawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private boolean isItemChecked(final int id) {
-        return navigationView.getMenu().findItem(id).isChecked();
-    }
-
-    private void switchToFragment(Fragment fragment) {
-        currentFragment = fragment;
-        manager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
-    }
-
-    private void switchCheckedItem(int id) {
-        uncheckAllCheckedMenuItems();
-        navigationView.getMenu().findItem(id).setChecked(true);
-    }
-
-    private void switchToLoginActivity() {
-        final Intent login = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(login);
-        finish();
-    }
-
-    private void uncheckAllCheckedMenuItems() {
-        final Menu menu = navigationView.getMenu();
-        for (int i = 0; i < menu.size(); i++) {
-            MenuItem item = menu.getItem(i);
-            if (item.hasSubMenu()) {
-                SubMenu subMenu = item.getSubMenu();
-                for (int j = 0; j < subMenu.size(); j++) {
-                    MenuItem subMenuItem = subMenu.getItem(j);
-                    if (subMenuItem.isChecked()) {
-                        subMenuItem.setChecked(false);
-                    }
-                }
-            } else if (item.isChecked()) {
-                item.setChecked(false);
-            }
-        }
-    }
-
-    private void unregisterReceivers() {
+    public void unregisterReceivers() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mProfileUpdatedReceiver);
     }
 
@@ -264,15 +184,16 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         navigationView = null;
         mDrawerLayout = null;
         mDrawerToggle = null;
-        manager = null;
-        boughtFragment = null;
-        cleanedFragment = null;
         mUsername = null;
         mProfilePicture = null;
         super.onDestroy();
     }
 
-    public BoughtFragment getBoughtFragment() {
-        return boughtFragment;
+    public DrawerLayout getmDrawerLayout() {
+        return mDrawerLayout;
+    }
+
+    public NavigationView getNavigationView() {
+        return navigationView;
     }
 }
