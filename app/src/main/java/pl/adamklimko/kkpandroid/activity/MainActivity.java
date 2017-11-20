@@ -32,17 +32,27 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
     private FragmentManager manager;
 
     public static final String USERS_PROFILE_PICTURES = "users_profile_pictures";
-    private BroadcastReceiver mUsersProfilePicturesReceiver;
+    private final BroadcastReceiver mUsersProfilePicturesReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boughtFragment.redrawWholeTable();
+        }
+    };
 
     public static final String USERS_DATA = "users_data";
-    private BroadcastReceiver mUsersDataReceiver;
+    private final BroadcastReceiver mUsersDataReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boughtFragment.redrawWholeTable();
+            new UsersProfilePicturesTask(getApplicationContext(), UserSession.getUsersData()).execute((Void) null);
+        }
+    };
 
     public static final String REDRAW_PICTURE = "redraw_picture";
-    private BroadcastReceiver mNewProfilePictureSaved = new BroadcastReceiver() {
+    private final BroadcastReceiver mNewProfilePictureSaved = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             MainActivity.super.redrawProfilePicture();
-            // TODO: redraw table pictures
             boughtFragment.redrawWholeTable();
         }
     };
@@ -57,22 +67,6 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         boughtFragment = BoughtFragment.newInstance();
         cleanedFragment = CleanedFragment.newInstance();
         manager = getSupportFragmentManager();
-
-        mUsersDataReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                boughtFragment.redrawWholeTable();
-                new UsersProfilePicturesTask(getApplicationContext(), UserSession.getUsersData()).execute((Void) null);
-            }
-        };
-
-        mUsersProfilePicturesReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                //TODO: Rewrite upptask to use userdata list
-                boughtFragment.redrawWholeTable();
-            }
-        };
 
         registerBroadcastReceivers();
 

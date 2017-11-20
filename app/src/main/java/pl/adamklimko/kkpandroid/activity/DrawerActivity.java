@@ -91,8 +91,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         }
 
         navigationView.setNavigationItemSelectedListener(this);
-
-
     }
 
     @Override
@@ -189,11 +187,11 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         super.onDestroy();
     }
 
-    public DrawerLayout getmDrawerLayout() {
+    DrawerLayout getmDrawerLayout() {
         return mDrawerLayout;
     }
 
-    public NavigationView getNavigationView() {
+    NavigationView getNavigationView() {
         return navigationView;
     }
 }
