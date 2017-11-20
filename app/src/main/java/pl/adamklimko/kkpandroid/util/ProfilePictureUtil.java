@@ -18,7 +18,7 @@ public class ProfilePictureUtil {
 
     public static Bitmap getProfilePicture(String facebookId) {
         try {
-            final URL url = new URL("https://graph.facebook.com//v2.10/" + facebookId + "/picture?type=square&height=300&width=300");
+            final URL url = new URL("https://graph.facebook.com//v2.10/" + facebookId + "/picture?type=square&height=200&width=200");
             final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
