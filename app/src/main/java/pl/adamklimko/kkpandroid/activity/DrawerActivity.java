@@ -39,6 +39,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     private TextView mUsername;
     private BoughtFragment boughtFragment;
     private CleanedFragment cleanedFragment;
+    private Fragment currentFragment;
     private FragmentManager manager;
 
     public static final String UPDATE_PROFILE = "update_profile";
@@ -46,14 +47,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         @Override
         public void onReceive(Context context, Intent intent) {
             updateProfile();
-        }
-    };
-
-    public static final String REDRAW_PICTURE = "redraw_picture";
-    private BroadcastReceiver mNewProfilePictureSaved = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            redrawProfilePicture();
         }
     };
 
@@ -85,8 +78,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         // register to receive messages
         LocalBroadcastManager.getInstance(this).registerReceiver(mProfileUpdatedReceiver,
                 new IntentFilter(UPDATE_PROFILE));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mNewProfilePictureSaved,
-                new IntentFilter(REDRAW_PICTURE));
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, 0, 0);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
@@ -199,6 +190,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     }
 
     private void switchToFragment(Fragment fragment) {
+        currentFragment = fragment;
         manager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
@@ -235,7 +227,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
 
     private void unregisterReceivers() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mProfileUpdatedReceiver);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mNewProfilePictureSaved);
     }
 
     private void updateProfile() {
@@ -258,7 +249,7 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         profilePictureTask.execute(UserSession.getFacebookId());
     }
 
-    private void redrawProfilePicture() {
+    public void redrawProfilePicture() {
         final Bitmap profile = ProfilePictureUtil.getUserPictureFromStorage(UserSession.getUsername(), getApplicationContext());
         if (profile != null) {
             mProfilePicture.setImageBitmap(profile);
@@ -268,7 +259,6 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
     @Override
     protected void onDestroy() {
         unregisterReceivers();
-        mNewProfilePictureSaved = null;
         mProfileUpdatedReceiver = null;
         viewStub = null;
         navigationView = null;

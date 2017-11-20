@@ -118,6 +118,7 @@ public class BoughtFragment extends Fragment {
                 ImageView profilePicture = new ImageView(mContext);
                 final Bitmap roundedPicture = ProfilePictureUtil.getRoundedCornerBitmap(ProfilePictureUtil.getUserPictureFromStorage(username, mContext));
                 profilePicture.setImageBitmap(roundedPicture);
+                profilePicture.setMinimumHeight(DynamicSizeUtil.getPixelsFromDp(mContext, 45));
                 final TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT);
                 layoutParams.gravity = Gravity.CENTER;
                 rows[0].addView(profilePicture, layoutParams);

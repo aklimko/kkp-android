@@ -23,6 +23,16 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
     public static final String USERS_DATA = "users_data";
     private BroadcastReceiver mUsersDataReceiver;
 
+    public static final String REDRAW_PICTURE = "redraw_picture";
+    private BroadcastReceiver mNewProfilePictureSaved = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            MainActivity.super.redrawProfilePicture();
+            // TODO: redraw table pictures
+
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,16 +56,22 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
             }
         };
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(mUsersProfilePicturesReceiver,
-                new IntentFilter(USERS_PROFILE_PICTURES));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mUsersDataReceiver,
-                new IntentFilter(USERS_DATA));
+        registerBroadcastReceivers();
 
         if (savedInstanceState == null) {
             getUsersData();
             Fragment boughtFragment = super.getBoughtFragment();
             switchToFragment(boughtFragment);
         }
+    }
+
+    private void registerBroadcastReceivers() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(mUsersProfilePicturesReceiver,
+                new IntentFilter(USERS_PROFILE_PICTURES));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mUsersDataReceiver,
+                new IntentFilter(USERS_DATA));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mNewProfilePictureSaved,
+                new IntentFilter(REDRAW_PICTURE));
     }
 
     private void getUsersData() {
@@ -79,6 +95,7 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         kkpService = null;
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mUsersProfilePicturesReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mUsersDataReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mNewProfilePictureSaved);
         super.onDestroy();
     }
 }
