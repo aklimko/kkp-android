@@ -28,7 +28,7 @@ public class ProfilePictureTask extends AsyncTask<String, Void, Bitmap> {
         if (bitmap == null) {
             return;
         }
-        ProfilePictureUtil.saveProfilePicture(mContext, username, bitmap);
+        ProfilePictureUtil.saveProfilePicture(bitmap, username, mContext);
         informToRedrawProfilePictureViewInDrawer();
         super.onPostExecute(bitmap);
     }

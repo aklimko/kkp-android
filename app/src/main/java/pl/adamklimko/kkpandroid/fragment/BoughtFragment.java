@@ -1,6 +1,7 @@
 package pl.adamklimko.kkpandroid.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -15,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import com.mikhaellopez.circularimageview.CircularImageView;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.activity.FragmentCommunicator;
 import pl.adamklimko.kkpandroid.activity.MainActivity;
@@ -39,6 +39,7 @@ public class BoughtFragment extends Fragment {
     private List<UserData> usersData;
     private TableLayout boughtProducts;
     private TableRow[] rows;
+    GradientDrawable gd;
 
     public BoughtFragment() {
         // Required empty public constructor
@@ -92,17 +93,19 @@ public class BoughtFragment extends Fragment {
         boughtProducts = getView().findViewById(R.id.table_bought);
         boughtProducts.setStretchAllColumns(true);
 
-        GradientDrawable gd = new GradientDrawable(
-                GradientDrawable.Orientation.TOP_BOTTOM,
+        gd = new GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
                 new int[]{Color.parseColor("#C0C0C0"), Color.parseColor("#505050")});
         gd.setGradientCenter(0.f, 1.f);
         gd.setLevel(2);
-        //boughtProducts.setBackgroundDrawable(gd);
 
         rows = new TableRow[BoughtProducts.getNumberOfProducts() + 2];
         rows[0] = new TableRow(mContext);
+        rows[0].setMinimumHeight(DynamicSizeUtil.getPixelsFromDp(mContext, 45));
         rows[rows.length - 1] = new TableRow(mContext);
-        rows[0].addView(new TextView(mContext), new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.5f));
+        final TextView emptySpace = new TextView(mContext);
+        emptySpace.setHeight(DynamicSizeUtil.getPixelsFromDp(mContext, 45));
+        rows[0].addView(emptySpace, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.5f));
     }
 
     private void drawUsersProfiles() {
@@ -113,19 +116,16 @@ public class BoughtFragment extends Fragment {
         for (UserData userData : usersData) {
             final String username = userData.getUsername();
             if (usersWithValidPictures.contains(username)) {
-                CircularImageView profilePicture = new CircularImageView(mContext);
-                profilePicture.setImageBitmap(ProfilePictureUtil.getUserPictureFromStorage(mContext, username));
-                profilePicture.setBorderWidth(0);
-                TableRow.LayoutParams layoutParamsProfile = new TableRow.LayoutParams();
-                layoutParamsProfile.gravity = Gravity.CENTER;
-                profilePicture.setLayoutParams(layoutParamsProfile);
+                ImageView profilePicture = new ImageView(mContext);
+                final Bitmap roundedPicture = ProfilePictureUtil.getRoundedCornerBitmap(ProfilePictureUtil.getUserPictureFromStorage(username, mContext));
+                profilePicture.setImageBitmap(roundedPicture);
                 final TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1f);
                 layoutParams.gravity = Gravity.CENTER;
                 rows[0].addView(profilePicture, layoutParams);
             } else {
                 TextView usernameText = new TextView(mContext);
                 usernameText.setText(userData.getUsername());
-                usernameText.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
+                usernameText.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 45));
                 usernameText.setGravity(Gravity.CENTER);
                 usernameText.setTextSize(11);
                 rows[0].addView(usernameText, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));

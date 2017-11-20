@@ -1,8 +1,7 @@
 package pl.adamklimko.kkpandroid.util;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.*;
 import android.text.TextUtils;
 import pl.adamklimko.kkpandroid.model.Profile;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
@@ -30,7 +29,29 @@ public class ProfilePictureUtil {
         }
     }
 
-    public static void saveProfilePicture(Context context, String username, Bitmap bitmapImage) {
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final float roundPx = 700;
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+    }
+
+    public static void saveProfilePicture(Bitmap bitmapImage, String username, Context context) {
         final File path = new File(context.getFilesDir(), getUserPictureName(username));
 
         FileOutputStream fos = null;
@@ -54,7 +75,7 @@ public class ProfilePictureUtil {
         context.deleteFile(name);
     }
 
-    public static Bitmap getUserPictureFromStorage(Context context, String username) {
+    public static Bitmap getUserPictureFromStorage(String username, Context context) {
         try {
             final File profilePicture = new File(context.getFilesDir(), getUserPictureName(username));
             return BitmapFactory.decodeStream(new FileInputStream(profilePicture));
@@ -89,7 +110,7 @@ public class ProfilePictureUtil {
         if (profilePicture == null) {
             return;
         }
-        ProfilePictureUtil.saveProfilePicture(context, UserSession.getUsername(), profilePicture);
+        ProfilePictureUtil.saveProfilePicture(profilePicture, UserSession.getUsername(), context);
     }
 
     public static String getUserPictureName(String username) {

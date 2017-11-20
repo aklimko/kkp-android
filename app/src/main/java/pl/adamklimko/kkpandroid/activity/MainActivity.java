@@ -30,8 +30,6 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
 
         kkpService = ApiClient.createServiceWithAuth(KkpService.class, this);
 
-        getUsersData();
-
         mUsersDataReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -45,8 +43,6 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
             public void onReceive(Context context, Intent intent) {
                 //TODO: Rewrite upptask to use userdata list
                 MainActivity.super.getBoughtFragment().redrawWholeTable();
-//                MainActivity.super.getBoughtFragment().drawUsersProfiles();
-//                new UsersProfilePicturesTask(getApplicationContext(), UserSession.getUsersData());
             }
         };
 
@@ -56,6 +52,7 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
                 new IntentFilter(USERS_DATA));
 
         if (savedInstanceState == null) {
+            getUsersData();
             Fragment boughtFragment = super.getBoughtFragment();
             switchToFragment(boughtFragment);
         }

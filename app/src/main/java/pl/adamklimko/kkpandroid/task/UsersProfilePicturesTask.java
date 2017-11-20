@@ -46,7 +46,7 @@ public class UsersProfilePicturesTask extends AsyncTask<Void, Void, Map<String, 
     private void saveProfilePicturesInStorage(Map<String, Bitmap> usersProfilePictures) {
         for (Map.Entry<String, Bitmap> entry : usersProfilePictures.entrySet()) {
             if (entry.getValue() != null) {
-                ProfilePictureUtil.saveProfilePicture(mContext, entry.getKey(), entry.getValue());
+                ProfilePictureUtil.saveProfilePicture(entry.getValue(), entry.getKey(), mContext);
             }
         }
     }
