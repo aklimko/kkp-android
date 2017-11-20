@@ -118,7 +118,7 @@ public class BoughtFragment extends Fragment {
                 ImageView profilePicture = new ImageView(mContext);
                 final Bitmap roundedPicture = ProfilePictureUtil.getRoundedCornerBitmap(ProfilePictureUtil.getUserPictureFromStorage(username, mContext));
                 profilePicture.setImageBitmap(roundedPicture);
-                final TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT, 1f);
+                final TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.MATCH_PARENT);
                 layoutParams.gravity = Gravity.CENTER;
                 rows[0].addView(profilePicture, layoutParams);
             } else {
@@ -127,7 +127,7 @@ public class BoughtFragment extends Fragment {
                 usernameText.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 45));
                 usernameText.setGravity(Gravity.CENTER);
                 usernameText.setTextSize(11);
-                rows[0].addView(usernameText, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+                rows[0].addView(usernameText, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
             }
         }
         boughtProducts.addView(rows[0]);
@@ -149,7 +149,7 @@ public class BoughtFragment extends Fragment {
                 TextView value = new TextView(mContext);
                 value.setText(Integer.toString(userData.getBoughtProducts().getFieldValue(i - 1)));
                 value.setGravity(Gravity.CENTER);
-                row.addView(value, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+                row.addView(value, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
             }
 
             boughtProducts.addView(row);
@@ -171,7 +171,7 @@ public class BoughtFragment extends Fragment {
             value.setText(Integer.toString(userData.getBoughtProducts().getSumValues()));
             value.setGravity(Gravity.CENTER);
             value.setTypeface(value.getTypeface(), Typeface.BOLD);
-            totalRow.addView(value, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f));
+            totalRow.addView(value, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
         }
         boughtProducts.addView(totalRow);
     }
