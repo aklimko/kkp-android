@@ -105,7 +105,7 @@ public class ProfilePictureUtil {
         setProfilePicture(facebookId, context);
     }
 
-    public static void setProfilePicture(String facebookId, Context context) {
+    private static void setProfilePicture(String facebookId, Context context) {
         final Bitmap profilePicture = ProfilePictureUtil.getProfilePicture(facebookId);
         if (profilePicture == null) {
             return;

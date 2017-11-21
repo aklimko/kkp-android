@@ -40,7 +40,6 @@ public class BoughtFragment extends Fragment {
     private List<UserData> usersData;
     private TableLayout boughtProducts;
     private TableRow[] rows;
-    GradientDrawable gd;
 
     private FloatingActionMenu fam;
     private FloatingActionButton fabAddBought;
@@ -119,16 +118,11 @@ public class BoughtFragment extends Fragment {
         boughtProducts = getView().findViewById(R.id.table_bought);
         boughtProducts.setStretchAllColumns(true);
 
-        gd = new GradientDrawable(
-                GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{Color.parseColor("#C0C0C0"), Color.parseColor("#505050")});
-        gd.setGradientCenter(0.f, 1.f);
-        gd.setLevel(2);
-
         rows = new TableRow[BoughtProducts.getNumberOfProducts() + 2];
         rows[0] = new TableRow(mContext);
         rows[0].setMinimumHeight(DynamicSizeUtil.getPixelsFromDp(mContext, 45));
         rows[rows.length - 1] = new TableRow(mContext);
+
         final TextView emptySpace = new TextView(mContext);
         emptySpace.setHeight(DynamicSizeUtil.getPixelsFromDp(mContext, 45));
         rows[0].addView(emptySpace, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1.5f));

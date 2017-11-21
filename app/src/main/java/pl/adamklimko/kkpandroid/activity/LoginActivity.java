@@ -22,7 +22,6 @@ import pl.adamklimko.kkpandroid.model.User;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.rest.KkpService;
-import pl.adamklimko.kkpandroid.task.UsersDataTask;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 import pl.adamklimko.kkpandroid.util.ToastUtil;
 import retrofit2.Call;

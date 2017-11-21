@@ -27,7 +27,7 @@ public class UserSession {
     private static final String TOKEN = "token";
     private static final String EXPIRATION_DATE = "expiration_date";
     private static final String USERS_DATA = "users_data";
-    public static final String USERS_VALID_PICTURES = "users_valid_pictures";
+    private static final String USERS_VALID_PICTURES = "users_valid_pictures";
 
     private static boolean firstStarted = true;
 

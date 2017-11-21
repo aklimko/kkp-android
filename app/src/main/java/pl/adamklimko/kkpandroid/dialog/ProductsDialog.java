@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProductsDialog {
     private final List<Integer> mSelectedItems = new ArrayList<>();
-    private AlertDialog.Builder builder;
+    private final AlertDialog.Builder builder;
     private final Context mContext;
 
     public ProductsDialog(Context context, ProductsType type) {

@@ -1,13 +1,7 @@
 package pl.adamklimko.kkpandroid.task;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.content.LocalBroadcastManager;
-import android.widget.Toast;
-import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.activity.LoginActivity;
-import pl.adamklimko.kkpandroid.activity.MainActivity;
 import pl.adamklimko.kkpandroid.exception.NoNetworkConnectedException;
 import pl.adamklimko.kkpandroid.model.BoughtProducts;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
@@ -17,7 +11,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.util.List;
 
 public class BoughtProductTask extends AsyncTask<Void, Void, Boolean> {
