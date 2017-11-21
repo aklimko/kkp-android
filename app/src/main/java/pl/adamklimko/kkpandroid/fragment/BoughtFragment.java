@@ -18,6 +18,8 @@ import com.github.clans.fab.FloatingActionMenu;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.activity.FragmentCommunicator;
 import pl.adamklimko.kkpandroid.activity.MainActivity;
+import pl.adamklimko.kkpandroid.dialog.ProductsDialog;
+import pl.adamklimko.kkpandroid.dialog.ProductsType;
 import pl.adamklimko.kkpandroid.model.BoughtProducts;
 import pl.adamklimko.kkpandroid.model.UserData;
 import pl.adamklimko.kkpandroid.rest.KkpService;
@@ -78,30 +80,8 @@ public class BoughtFragment extends Fragment {
         fam = view.findViewById(R.id.fab_menu);
         fam.bringToFront();
 
-        //handling menu status (open or close)
-        fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
-            @Override
-            public void onMenuToggle(boolean opened) {
-                if (opened) {
-//                    showToast("Menu is opened");
-                } else {
-//                    showToast("Menu is closed");
-                }
-            }
-        });
-
-        //handling each floating action button clicked
         fabAddBought.setOnClickListener(onButtonClick());
         fabAddMissing.setOnClickListener(onButtonClick());
-
-        fam.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (fam.isOpened()) {
-                    fam.close(true);
-                }
-            }
-        });
 
         drawWholeTable();
     }
@@ -111,19 +91,13 @@ public class BoughtFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (view == fabAddBought) {
-                    showToast("fab bought");
+                    new ProductsDialog(mContext, ProductsType.BOUGHT).show();
                 } else if (view == fabAddMissing) {
-                    showToast("fab missing");
-                } else {
-                    showToast("Button Edit clicked");
+                    new ProductsDialog(mContext, ProductsType.MISSING).show();
                 }
                 fam.close(true);
             }
         };
-    }
-
-    private void showToast(String msg) {
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 
     public void redrawWholeTable() {

@@ -12,7 +12,6 @@ import android.support.v4.view.GravityCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.widget.Toast;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.fragment.BoughtFragment;
 import pl.adamklimko.kkpandroid.fragment.CleanedFragment;
@@ -21,6 +20,7 @@ import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.task.UsersDataTask;
 import pl.adamklimko.kkpandroid.task.UsersProfilePicturesTask;
+import pl.adamklimko.kkpandroid.util.ToastUtil;
 
 public class MainActivity extends DrawerActivity implements FragmentCommunicator {
 
@@ -111,7 +111,7 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
                 switchToLoginActivity();
                 UserSession.resetSession(getApplicationContext());
                 MainActivity.super.unregisterReceivers();
-                Toast.makeText(getApplicationContext(), "Successful logout", Toast.LENGTH_SHORT).show();
+                ToastUtil.showToastShort("Successful logout", getApplicationContext());
                 break;
         }
 

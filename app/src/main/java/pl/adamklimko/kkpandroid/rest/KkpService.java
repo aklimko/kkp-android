@@ -1,9 +1,6 @@
 package pl.adamklimko.kkpandroid.rest;
 
-import pl.adamklimko.kkpandroid.model.Profile;
-import pl.adamklimko.kkpandroid.model.Token;
-import pl.adamklimko.kkpandroid.model.User;
-import pl.adamklimko.kkpandroid.model.UserData;
+import pl.adamklimko.kkpandroid.model.*;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -25,4 +22,7 @@ public interface KkpService {
 
     @GET("users/all")
     Call<List<UserData>> getUsersData();
+
+    @PATCH("bought_products")
+    Call<BoughtProducts> addBoughtProducts(@Body BoughtProducts boughtProducts);
 }

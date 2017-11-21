@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/ic_menu_delete"
-                fab:fab_label="Add to buy"
+                fab:fab_label="Add missing"
                 fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>

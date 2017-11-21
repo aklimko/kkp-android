@@ -24,6 +24,7 @@ import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.task.UsersDataTask;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
+import pl.adamklimko.kkpandroid.util.ToastUtil;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -222,8 +223,6 @@ public class LoginActivity extends AppCompatActivity {
                 UserSession.setTokenInPreferences(token);
                 ProfilePictureUtil.getUserProfile(getApplicationContext());
                 return true;
-            } else if (response.code() == 403) {
-                Log.e("LOGIN", "Bad credentials");
             }
             return false;
         }
@@ -234,11 +233,11 @@ public class LoginActivity extends AppCompatActivity {
             showProgress(false);
 
             if (noNetworkConnection) {
-                Toast.makeText(LoginActivity.this, "No network connection", Toast.LENGTH_SHORT).show();
+                ToastUtil.showToastShort("No network connection", getApplicationContext());
                 return;
             }
             if (noInternetConnection) {
-                Toast.makeText(LoginActivity.this, "Cannot connect to a server", Toast.LENGTH_SHORT).show();
+                ToastUtil.showToastShort("Cannot connect to a server", getApplicationContext());
                 return;
             }
             if (success) {
@@ -256,7 +255,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         private void informAboutSuccessfulLogin() {
-            Toast.makeText(getApplicationContext(), "Logged in", Toast.LENGTH_SHORT).show();
+            ToastUtil.showToastShort("Logged in", getApplicationContext());
         }
 
         private void saveUsername() {

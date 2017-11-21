@@ -41,6 +41,28 @@ public class BoughtProducts {
         }
     }
 
+    public void setFieldValueToOne(int field) {
+        switch (field) {
+            case 0:
+                toiletPaper = 1;
+                break;
+            case 1:
+                dishSoap = 1;
+                break;
+            case 2:
+                trashBag = 1;
+                break;
+            case 3:
+                 soap = 1;
+                break;
+            case 4:
+                sugar = 1;
+                break;
+            default:
+                break;
+        }
+    }
+
     public int getSumValues() {
         return toiletPaper + dishSoap + trashBag + soap + sugar;
     }
