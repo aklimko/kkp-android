@@ -12,10 +12,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.*;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.activity.FragmentCommunicator;
 import pl.adamklimko.kkpandroid.activity.MainActivity;
@@ -40,6 +39,10 @@ public class BoughtFragment extends Fragment {
     private TableLayout boughtProducts;
     private TableRow[] rows;
     GradientDrawable gd;
+
+    private FloatingActionMenu fam;
+    private FloatingActionButton fabAddBought;
+    private FloatingActionButton fabAddMissing;
 
     public BoughtFragment() {
         // Required empty public constructor
@@ -70,7 +73,57 @@ public class BoughtFragment extends Fragment {
         if (getView() == null) {
             return;
         }
+        fabAddBought = view.findViewById(R.id.fab_add_bought);
+        fabAddMissing = view.findViewById(R.id.fab_add_to_buy);
+        fam = view.findViewById(R.id.fab_menu);
+        fam.bringToFront();
+
+        //handling menu status (open or close)
+        fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if (opened) {
+//                    showToast("Menu is opened");
+                } else {
+//                    showToast("Menu is closed");
+                }
+            }
+        });
+
+        //handling each floating action button clicked
+        fabAddBought.setOnClickListener(onButtonClick());
+        fabAddMissing.setOnClickListener(onButtonClick());
+
+        fam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fam.isOpened()) {
+                    fam.close(true);
+                }
+            }
+        });
+
         drawWholeTable();
+    }
+
+    private View.OnClickListener onButtonClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view == fabAddBought) {
+                    showToast("fab bought");
+                } else if (view == fabAddMissing) {
+                    showToast("fab missing");
+                } else {
+                    showToast("Button Edit clicked");
+                }
+                fam.close(true);
+            }
+        };
+    }
+
+    private void showToast(String msg) {
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 
     public void redrawWholeTable() {
