@@ -33,7 +33,7 @@
                 android:id="@+id/fab_add_bought"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_add"
+                android:src="@drawable/fab_add"
                 fab:fab_label="Add bought"
                 fab:fab_size="mini" />
 
@@ -41,7 +41,7 @@
                 android:id="@+id/fab_add_to_buy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_delete"
+                android:src="@drawable/fab_add"
                 fab:fab_label="Add missing"
                 fab:fab_size="mini" />
 
