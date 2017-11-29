@@ -19,9 +19,9 @@ public interface KkpService {
     @PATCH("user/profile")
     Call<Profile> patchProfile(@Body Profile profile);
 
-    @GET("users/all")
+    @GET("users")
     Call<List<UserData>> getUsersData();
 
-    @PATCH("bought_products")
+    @PATCH("products/bought")
     Call<BoughtProducts> addBoughtProducts(@Body BoughtProducts boughtProducts);
 }
