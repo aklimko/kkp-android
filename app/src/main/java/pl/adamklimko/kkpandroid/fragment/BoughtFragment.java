@@ -2,17 +2,19 @@ package pl.adamklimko.kkpandroid.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import pl.adamklimko.kkpandroid.R;
@@ -24,6 +26,7 @@ import pl.adamklimko.kkpandroid.model.BoughtProducts;
 import pl.adamklimko.kkpandroid.model.UserData;
 import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.task.UsersDataTask;
 import pl.adamklimko.kkpandroid.util.DynamicSizeUtil;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
@@ -44,6 +47,8 @@ public class BoughtFragment extends Fragment {
     private FloatingActionMenu fam;
     private FloatingActionButton fabAddBought;
     private FloatingActionButton fabAddMissing;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public BoughtFragment() {
         // Required empty public constructor
@@ -82,7 +87,21 @@ public class BoughtFragment extends Fragment {
         fabAddBought.setOnClickListener(onButtonClick());
         fabAddMissing.setOnClickListener(onButtonClick());
 
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_bought);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.red);
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new UsersDataTask(mContext).execute();
+            }
+        });
+
         drawWholeTable();
+    }
+
+    public void hideRefreshing() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     private View.OnClickListener onButtonClick() {

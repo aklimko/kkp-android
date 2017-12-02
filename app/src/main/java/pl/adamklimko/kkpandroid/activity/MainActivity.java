@@ -44,6 +44,7 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         @Override
         public void onReceive(Context context, Intent intent) {
             boughtFragment.redrawWholeTable();
+            boughtFragment.hideRefreshing();
             new UsersProfilePicturesTask(getApplicationContext(), UserSession.getUsersData()).execute((Void) null);
         }
     };
