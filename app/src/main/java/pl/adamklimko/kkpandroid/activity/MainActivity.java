@@ -13,29 +13,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import pl.adamklimko.kkpandroid.R;
+import pl.adamklimko.kkpandroid.fragment.BaseFragment;
 import pl.adamklimko.kkpandroid.fragment.BoughtFragment;
 import pl.adamklimko.kkpandroid.fragment.CleanedFragment;
+import pl.adamklimko.kkpandroid.fragment.HistoryFragment;
+import pl.adamklimko.kkpandroid.fragment.dummy.DummyContent;
+import pl.adamklimko.kkpandroid.model.History;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.task.HistoryTask;
 import pl.adamklimko.kkpandroid.task.UsersDataTask;
 import pl.adamklimko.kkpandroid.task.UsersProfilePicturesTask;
 import pl.adamklimko.kkpandroid.util.ToastUtil;
 
-public class MainActivity extends DrawerActivity implements FragmentCommunicator {
+public class MainActivity extends DrawerActivity implements FragmentCommunicator, HistoryFragment.OnListFragmentInteractionListener {
 
     private KkpService kkpService;
 
     private BoughtFragment boughtFragment;
     private CleanedFragment cleanedFragment;
-    private Fragment currentFragment;
+    private HistoryFragment historyFragment;
+    private BaseFragment currentFragment;
     private FragmentManager manager;
+
+    private static final String CURRENT_FRAGMENT_TAG = "CURRENT_FRAGMENT";
 
     public static final String USERS_PROFILE_PICTURES = "users_profile_pictures";
     private final BroadcastReceiver mUsersProfilePicturesReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boughtFragment.redrawWholeTable();
+            currentFragment.redrawContent();
         }
     };
 
@@ -43,9 +51,9 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
     private final BroadcastReceiver mUsersDataReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boughtFragment.redrawWholeTable();
-            boughtFragment.hideRefreshing();
-            new UsersProfilePicturesTask(getApplicationContext(), UserSession.getUsersData()).execute((Void) null);
+            currentFragment.redrawContent();
+            currentFragment.hideRefreshing();
+            new UsersProfilePicturesTask(getApplicationContext(), UserSession.getUsersData()).execute();
         }
     };
 
@@ -54,7 +62,7 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         @Override
         public void onReceive(Context context, Intent intent) {
             MainActivity.super.redrawProfilePicture();
-            boughtFragment.redrawWholeTable();
+            currentFragment.redrawContent();
         }
     };
 
@@ -63,20 +71,25 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        kkpService = ApiClient.createServiceWithAuth(KkpService.class, this);
+        kkpService = ApiClient.createServiceWithAuth(KkpService.class, getApplicationContext());
 
         boughtFragment = BoughtFragment.newInstance();
         cleanedFragment = CleanedFragment.newInstance();
+        historyFragment = HistoryFragment.newInstance();
         manager = getSupportFragmentManager();
 
         registerBroadcastReceivers();
 
         if (savedInstanceState == null) {
-            getUsersData();
-            Fragment boughtFragment = this.boughtFragment;
+            currentFragment = boughtFragment;
             switchToFragment(boughtFragment);
+            getUsersData();
+            getHistory();
+        } else {
+            currentFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
         }
     }
+
 
     private void registerBroadcastReceivers() {
         LocalBroadcastManager.getInstance(this).registerReceiver(mUsersProfilePicturesReceiver,
@@ -98,11 +111,18 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
 
         switch (id) {
             case R.id.nav_bought:
+                currentFragment = boughtFragment;
                 switchToFragment(boughtFragment);
                 switchCheckedItem(id);
                 break;
             case R.id.nav_cleaned:
+                currentFragment = cleanedFragment;
                 switchToFragment(cleanedFragment);
+                switchCheckedItem(id);
+                break;
+            case R.id.nav_history:
+                currentFragment = historyFragment;
+                switchToFragment(historyFragment);
                 switchCheckedItem(id);
                 break;
             case R.id.nav_settings:
@@ -154,13 +174,17 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
     }
 
     private void getUsersData() {
-        final UsersDataTask usersDataTask = new UsersDataTask(getApplicationContext());
-        usersDataTask.execute((Void) null);
+        new UsersDataTask(getApplicationContext()).execute();
+    }
+
+    private void getHistory() {
+        //TODO: can pass arguments to task to determine if it worth to redraw content on fragment or not
+        new HistoryTask(getApplicationContext()).execute();
     }
 
     private void switchToFragment(Fragment fragment) {
         manager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
+                .replace(R.id.fragment_container, fragment, CURRENT_FRAGMENT_TAG)
                 .commit();
     }
 
@@ -176,5 +200,10 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mUsersDataReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mNewProfilePictureSaved);
         super.onDestroy();
+    }
+
+    @Override
+    public void onListFragmentInteraction(History item) {
+
     }
 }

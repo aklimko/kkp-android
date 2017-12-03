@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import pl.adamklimko.kkpandroid.R;
 
-public class CleanedFragment extends Fragment {
+public class CleanedFragment extends BaseFragment {
 
 
     public CleanedFragment() {
@@ -26,4 +26,13 @@ public class CleanedFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_cleaned, container, false);
     }
 
+    @Override
+    public void redrawContent() {
+
+    }
+
+    @Override
+    public void hideRefreshing() {
+
+    }
 }

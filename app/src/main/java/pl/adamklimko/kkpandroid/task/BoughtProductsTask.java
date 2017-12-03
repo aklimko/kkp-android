@@ -13,14 +13,14 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.List;
 
-public class BoughtProductTask extends AsyncTask<Void, Void, Boolean> {
+public class BoughtProductsTask extends AsyncTask<Void, Void, Boolean> {
     private final List<Integer> products;
     private final Context mContext;
 
     private boolean noNetworkConnection = false;
     private boolean noInternetConnection = false;
 
-    public BoughtProductTask(List<Integer> products, Context context) {
+    public BoughtProductsTask(List<Integer> products, Context context) {
         this.products = products;
         this.mContext = context;
     }

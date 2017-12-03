@@ -7,12 +7,14 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import pl.adamklimko.kkpandroid.model.History;
 import pl.adamklimko.kkpandroid.model.Profile;
 import pl.adamklimko.kkpandroid.model.Token;
 import pl.adamklimko.kkpandroid.model.UserData;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +30,7 @@ public class UserSession {
     private static final String EXPIRATION_DATE = "expiration_date";
     private static final String USERS_DATA = "users_data";
     private static final String USERS_VALID_PICTURES = "users_valid_pictures";
+    private static final String HISTORY = "history";
 
     private static boolean firstStarted = true;
 
@@ -107,11 +110,7 @@ public class UserSession {
     }
 
     public static void setUsersData(List<UserData> usersData) {
-        final Gson gson = new Gson();
-        String data = gson.toJson(usersData);
-        final Editor editor = preferences.edit();
-        editor.putString(USERS_DATA, data);
-        editor.apply();
+        setListInPreferences(usersData, USERS_DATA);
     }
 
     public static List<UserData> getUsersData() {
@@ -124,6 +123,38 @@ public class UserSession {
         final Type listType = new TypeToken<List<UserData>>(){}.getType();
         return gson.fromJson(data, listType);
     }
+
+    public static void setHistoryData(List<History> historyData) {
+        setListInPreferences(historyData, HISTORY);
+    }
+
+    public static List<History> getHistoryData() {
+        String history = preferences.getString(HISTORY, null);
+        if (history == null) {
+            return null;
+        }
+        final Type listType = new TypeToken<List<History>>(){}.getType();
+        return new Gson().fromJson(history, listType);
+    }
+
+    private static <T> void setListInPreferences(List<T> list, String key) {
+        final Gson gson = new Gson();
+        String data = gson.toJson(list);
+        final Editor editor = preferences.edit();
+        editor.putString(key, data);
+        editor.apply();
+    }
+
+//    private static <T> List<T> getListFromPreferences(List<T> classType, String key) {
+//        final Gson gson = new Gson();
+//        String data = preferences.getString(key, null);
+//        if (data == null) {
+//            return null;
+//        }
+//        // Trick to get generic list type
+//        final Type listType = new TypeToken<List<T>>(){}.getType();
+//        return gson.fromJson(data, listType);
+//    }
 
     public static void setUsersValidPictures(Set<String> usersValidPictures) {
         final Editor editor = preferences.edit();

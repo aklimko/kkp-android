@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 public class BoughtProducts {
     private int toiletPaper;
     private int dishSoap;
-    private int trashBag;
+    private int trashBags;
     private int soap;
     private int sugar;
 
@@ -21,7 +21,7 @@ public class BoughtProducts {
     }
 
     public static String[] getProductsNames() {
-        return new String[] {"Toilet paper", "Dish soap", "Trash bag", "Soap", "Sugar"};
+        return new String[] {"Toilet paper", "Dish soap", "Trash bags", "Soap", "Sugar"};
     }
 
     public int getFieldValue(int field) {
@@ -31,7 +31,7 @@ public class BoughtProducts {
             case 1:
                 return dishSoap;
             case 2:
-                return trashBag;
+                return trashBags;
             case 3:
                 return soap;
             case 4:
@@ -50,7 +50,7 @@ public class BoughtProducts {
                 dishSoap = 1;
                 break;
             case 2:
-                trashBag = 1;
+                trashBags = 1;
                 break;
             case 3:
                  soap = 1;
@@ -64,46 +64,15 @@ public class BoughtProducts {
     }
 
     public int getSumValues() {
-        return toiletPaper + dishSoap + trashBag + soap + sugar;
-    }
-
-    public int getToiletPaper() {
-        return toiletPaper;
-    }
-
-    public void setToiletPaper(int toiletPaper) {
-        this.toiletPaper = toiletPaper;
-    }
-
-    public int getDishSoap() {
-        return dishSoap;
-    }
-
-    public void setDishSoap(int dishSoap) {
-        this.dishSoap = dishSoap;
-    }
-
-    public int getTrashBag() {
-        return trashBag;
-    }
-
-    public void setTrashBag(int trashBag) {
-        this.trashBag = trashBag;
-    }
-
-    public int getSoap() {
-        return soap;
-    }
-
-    public void setSoap(int soap) {
-        this.soap = soap;
-    }
-
-    public int getSugar() {
-        return sugar;
-    }
-
-    public void setSugar(int sugar) {
-        this.sugar = sugar;
+        int count = 0;
+        Field[] fields = BoughtProducts.class.getDeclaredFields();
+        for (Field field : fields) {
+            if (field.getType() == int.class) {
+                try {
+                    count += field.getInt(this);
+                } catch (IllegalAccessException e) {}
+            }
+        }
+        return count;
     }
 }

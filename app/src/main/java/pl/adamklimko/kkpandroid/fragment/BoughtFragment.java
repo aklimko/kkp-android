@@ -33,7 +33,7 @@ import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 import java.util.List;
 import java.util.Set;
 
-public class BoughtFragment extends Fragment {
+public class BoughtFragment extends BaseFragment {
 
     private Context mContext;
 
@@ -50,9 +50,7 @@ public class BoughtFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    public BoughtFragment() {
-        // Required empty public constructor
-    }
+    public BoughtFragment() {}
 
     public static BoughtFragment newInstance() {
         return new BoughtFragment();
@@ -62,7 +60,7 @@ public class BoughtFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        fragmentCommunicator = (MainActivity) context;
+        fragmentCommunicator = (FragmentCommunicator) context;
         kkpService = fragmentCommunicator.getKkpService();
     }
 
@@ -76,9 +74,6 @@ public class BoughtFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getView() == null) {
-            return;
-        }
         fabAddBought = view.findViewById(R.id.fab_add_bought);
         fabAddMissing = view.findViewById(R.id.fab_add_to_buy);
         fam = view.findViewById(R.id.fab_menu);
@@ -100,6 +95,15 @@ public class BoughtFragment extends Fragment {
         drawWholeTable();
     }
 
+    @Override
+    public void redrawContent() {
+        if (boughtProducts != null) {
+            boughtProducts.removeAllViews();
+        }
+        drawWholeTable();
+    }
+
+    @Override
     public void hideRefreshing() {
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -119,11 +123,16 @@ public class BoughtFragment extends Fragment {
     }
 
     public void redrawWholeTable() {
-        boughtProducts.removeAllViews();
-        drawWholeTable();
+//        if (boughtProducts != null) {
+//            boughtProducts.removeAllViews();
+//        }
+//        drawWholeTable();
     }
 
     private void drawWholeTable() {
+        if (getView() == null) {
+            return;
+        }
         drawTable();
         usersData = UserSession.getUsersData();
         if (usersData != null) {
