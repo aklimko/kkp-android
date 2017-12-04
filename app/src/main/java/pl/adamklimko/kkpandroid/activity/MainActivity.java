@@ -86,18 +86,21 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
             getUsersData();
             getHistory();
         } else {
-            currentFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag(CURRENT_FRAGMENT_TAG);
+            currentFragment = (BaseFragment) manager.findFragmentByTag(CURRENT_FRAGMENT_TAG);
         }
     }
 
 
     private void registerBroadcastReceivers() {
-        LocalBroadcastManager.getInstance(this).registerReceiver(mUsersProfilePicturesReceiver,
-                new IntentFilter(USERS_PROFILE_PICTURES));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mUsersDataReceiver,
-                new IntentFilter(USERS_DATA));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mNewProfilePictureSaved,
-                new IntentFilter(REDRAW_PICTURE));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mUsersProfilePicturesReceiver, new IntentFilter(USERS_PROFILE_PICTURES));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mUsersDataReceiver, new IntentFilter(USERS_DATA));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mNewProfilePictureSaved, new IntentFilter(REDRAW_PICTURE));
+    }
+
+    private void unregisterBroadcastReceivers() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mUsersProfilePicturesReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mUsersDataReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mNewProfilePictureSaved);
     }
 
     @Override
@@ -196,9 +199,7 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
     @Override
     protected void onDestroy() {
         kkpService = null;
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mUsersProfilePicturesReceiver);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mUsersDataReceiver);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mNewProfilePictureSaved);
+        unregisterBroadcastReceivers();
         super.onDestroy();
     }
 

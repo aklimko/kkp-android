@@ -33,8 +33,6 @@ public class HistoryFragment extends BaseFragment {
     public HistoryFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static HistoryFragment newInstance() {
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
@@ -91,7 +89,21 @@ public class HistoryFragment extends BaseFragment {
 
     @Override
     public void redrawContent() {
-
+        final View view = getView();
+        if (view == null) {
+            return;
+        }
+        if (!(view instanceof RecyclerView)) {
+            return;
+        }
+        Context context = view.getContext();
+        RecyclerView recyclerView = (RecyclerView) view;
+        if (mColumnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+        }
+        recyclerView.setAdapter(new HistoryRecyclerViewAdapter(DummyContent.ITEMS, mListener));
     }
 
     @Override
@@ -99,18 +111,8 @@ public class HistoryFragment extends BaseFragment {
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(History item);
-    }
+public interface OnListFragmentInteractionListener {
+    // TODO: Update argument type and name
+    void onListFragmentInteraction(History item);
+}
 }

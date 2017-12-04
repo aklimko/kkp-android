@@ -52,17 +52,44 @@ public class History {
         final StringBuilder text = new StringBuilder(user.getUsername());
         if (actionType == ActionType.DONE) {
             if (productsEntry != null) {
-                text.append(" bought ");
+                text.append(" bought: ");
             } else {
-                text.append(" cleaned ");
+                text.append(" cleaned: ");
             }
         } else {
             if (productsEntry != null) {
-                text.append(" marked as missing ");
+                text.append(" marked as missing: ");
             } else {
-                text.append(" marked as dirty ");
+                text.append(" marked as dirty: ");
             }
         }
+        if (productsEntry != null) {
+            text.append(productsEntry.getProductsNamesWhenFieldValueIsOne());
+        } else {
+            text.append(roomsEntry.toString());
+        }
+
         return text.toString();
+    }
+
+    public String getTimeToString() {
+        if (time.length != 6) {
+            return "NaD";
+        }
+        StringBuilder time = new StringBuilder();
+        for (int i = 3; i <= 4; i++) {
+            time.append(this.time[i]);
+            if (i != 4) {
+                time.append(":");
+            }
+        }
+        time.append("\n");
+        for (int i = 2; i >= 0; i--) {
+            time.append(this.time[i]);
+            if (i != 0) {
+                time.append("-");
+            }
+        }
+        return time.toString();
     }
 }

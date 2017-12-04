@@ -21,7 +21,7 @@ public class BoughtProducts {
     }
 
     public static String[] getProductsNames() {
-        return new String[] {"Toilet paper", "Dish soap", "Trash bags", "Soap", "Sugar"};
+        return new String[]{"Toilet paper", "Dish soap", "Trash bags", "Soap", "Sugar"};
     }
 
     public int getFieldValue(int field) {
@@ -53,7 +53,7 @@ public class BoughtProducts {
                 trashBags = 1;
                 break;
             case 3:
-                 soap = 1;
+                soap = 1;
                 break;
             case 4:
                 sugar = 1;
@@ -63,6 +63,17 @@ public class BoughtProducts {
         }
     }
 
+    public String getProductsNamesWhenFieldValueIsOne() {
+        StringBuilder names = new StringBuilder();
+        if (toiletPaper == 1) names.append("toilet paper, ");
+        if (dishSoap == 1) names.append("dish soap, ");
+        if (trashBags == 1) names.append("trash bags, ");
+        if (soap == 1) names.append("soap, ");
+        if (sugar == 1) names.append("sugar, ");
+        names.delete(names.length() - 2, names.length());
+        return names.toString();
+    }
+
     public int getSumValues() {
         int count = 0;
         Field[] fields = BoughtProducts.class.getDeclaredFields();
@@ -70,7 +81,8 @@ public class BoughtProducts {
             if (field.getType() == int.class) {
                 try {
                     count += field.getInt(this);
-                } catch (IllegalAccessException e) {}
+                } catch (IllegalAccessException e) {
+                }
             }
         }
         return count;
