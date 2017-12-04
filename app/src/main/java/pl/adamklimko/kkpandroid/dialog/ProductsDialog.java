@@ -4,8 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import pl.adamklimko.kkpandroid.R;
+import pl.adamklimko.kkpandroid.model.ActionType;
 import pl.adamklimko.kkpandroid.model.BoughtProducts;
-import pl.adamklimko.kkpandroid.task.BoughtProductsTask;
+import pl.adamklimko.kkpandroid.task.ProductsTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class ProductsDialog {
                 if (mSelectedItems.isEmpty()) {
                     return;
                 }
-                new BoughtProductsTask(mSelectedItems, mContext).execute((Void) null);
+                new ProductsTask(mSelectedItems, ActionType.DONE, mContext).execute();
             }
         });
     }
@@ -69,7 +70,7 @@ public class ProductsDialog {
                 if (mSelectedItems.isEmpty()) {
                     return;
                 }
-
+                new ProductsTask(mSelectedItems, ActionType.TO_BE_DONE, mContext).execute();
             }
         });
     }

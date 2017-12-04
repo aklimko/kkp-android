@@ -25,6 +25,9 @@ public interface KkpService {
     @PATCH("products/bought")
     Call<BoughtProducts> addBoughtProducts(@Body BoughtProducts boughtProducts);
 
+    @PATCH("products/missing")
+    Call<BoughtProducts> selectProductsAsMissing(@Body BoughtProducts boughtProducts);
+
     @GET("history")
     Call<List<History>> getHistory();
 }

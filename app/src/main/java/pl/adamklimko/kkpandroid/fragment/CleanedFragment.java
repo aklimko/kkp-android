@@ -30,9 +30,4 @@ public class CleanedFragment extends BaseFragment {
     public void redrawContent() {
 
     }
-
-    @Override
-    public void hideRefreshing() {
-
-    }
 }

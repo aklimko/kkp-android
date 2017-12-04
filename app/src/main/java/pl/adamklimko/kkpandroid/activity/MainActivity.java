@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -37,6 +38,8 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
     private BaseFragment currentFragment;
     private FragmentManager manager;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private static final String CURRENT_FRAGMENT_TAG = "CURRENT_FRAGMENT";
 
     public static final String USERS_PROFILE_PICTURES = "users_profile_pictures";
@@ -52,7 +55,7 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         @Override
         public void onReceive(Context context, Intent intent) {
             currentFragment.redrawContent();
-            currentFragment.hideRefreshing();
+            swipeRefreshLayout.setRefreshing(false);
             new UsersProfilePicturesTask(getApplicationContext(), UserSession.getUsersData()).execute();
         }
     };
@@ -79,6 +82,16 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         manager = getSupportFragmentManager();
 
         registerBroadcastReceivers();
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.red);
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new UsersDataTask(getApplicationContext()).execute();
+            }
+        });
 
         if (savedInstanceState == null) {
             currentFragment = boughtFragment;

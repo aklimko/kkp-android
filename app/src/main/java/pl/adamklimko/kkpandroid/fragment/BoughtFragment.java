@@ -48,8 +48,6 @@ public class BoughtFragment extends BaseFragment {
     private FloatingActionButton fabAddBought;
     private FloatingActionButton fabAddMissing;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-
     public BoughtFragment() {}
 
     public static BoughtFragment newInstance() {
@@ -82,16 +80,6 @@ public class BoughtFragment extends BaseFragment {
         fabAddBought.setOnClickListener(onButtonClick());
         fabAddMissing.setOnClickListener(onButtonClick());
 
-        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_bought);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.red);
-        swipeRefreshLayout.setRefreshing(false);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new UsersDataTask(mContext).execute();
-            }
-        });
-
         drawWholeTable();
     }
 
@@ -101,11 +89,6 @@ public class BoughtFragment extends BaseFragment {
             boughtProducts.removeAllViews();
         }
         drawWholeTable();
-    }
-
-    @Override
-    public void hideRefreshing() {
-        swipeRefreshLayout.setRefreshing(false);
     }
 
     private View.OnClickListener onButtonClick() {
@@ -120,13 +103,6 @@ public class BoughtFragment extends BaseFragment {
                 fam.close(true);
             }
         };
-    }
-
-    public void redrawWholeTable() {
-//        if (boughtProducts != null) {
-//            boughtProducts.removeAllViews();
-//        }
-//        drawWholeTable();
     }
 
     private void drawWholeTable() {

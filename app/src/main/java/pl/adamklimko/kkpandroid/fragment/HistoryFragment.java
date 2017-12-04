@@ -106,13 +106,8 @@ public class HistoryFragment extends BaseFragment {
         recyclerView.setAdapter(new HistoryRecyclerViewAdapter(DummyContent.ITEMS, mListener));
     }
 
-    @Override
-    public void hideRefreshing() {
-
+    public interface OnListFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onListFragmentInteraction(History item);
     }
-
-public interface OnListFragmentInteractionListener {
-    // TODO: Update argument type and name
-    void onListFragmentInteraction(History item);
-}
 }

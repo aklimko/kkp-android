@@ -3,6 +3,7 @@ package pl.adamklimko.kkpandroid.task;
 import android.content.Context;
 import android.os.AsyncTask;
 import pl.adamklimko.kkpandroid.exception.NoNetworkConnectedException;
+import pl.adamklimko.kkpandroid.model.ActionType;
 import pl.adamklimko.kkpandroid.model.BoughtProducts;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.KkpService;
@@ -13,15 +14,17 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.List;
 
-public class BoughtProductsTask extends AsyncTask<Void, Void, Boolean> {
+public class ProductsTask extends AsyncTask<Void, Void, Boolean> {
     private final List<Integer> products;
+    private final ActionType actionType;
     private final Context mContext;
 
     private boolean noNetworkConnection = false;
     private boolean noInternetConnection = false;
 
-    public BoughtProductsTask(List<Integer> products, Context context) {
+    public ProductsTask(List<Integer> products, ActionType actionType, Context context) {
         this.products = products;
+        this.actionType = actionType;
         this.mContext = context;
     }
 
@@ -29,7 +32,18 @@ public class BoughtProductsTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         final BoughtProducts products = getBoughtProductsObjectFromIntegers();
         final KkpService kkpService = ApiClient.createServiceWithAuth(KkpService.class, mContext);
-        final Call<BoughtProducts> productsCall = kkpService.addBoughtProducts(products);
+
+        final Call<BoughtProducts> productsCall;
+        switch (actionType) {
+            case DONE:
+                productsCall = kkpService.addBoughtProducts(products);
+                break;
+            case TO_BE_DONE:
+                productsCall = kkpService.selectProductsAsMissing(products);
+                break;
+            default:
+                productsCall = kkpService.addBoughtProducts(products);
+        }
         final Response<BoughtProducts> response;
         try {
             response = productsCall.execute();
@@ -73,7 +87,7 @@ public class BoughtProductsTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void updateDataInTable() {
-        new UsersDataTask(mContext).execute((Void) null);
+        new UsersDataTask(mContext).execute();
     }
 }
 

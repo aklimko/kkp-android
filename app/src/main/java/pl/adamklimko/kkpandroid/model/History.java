@@ -73,7 +73,7 @@ public class History {
     }
 
     public String getTimeToString() {
-        if (time.length != 6) {
+        if (time.length != 5 && time.length != 6) {
             return "NaD";
         }
         StringBuilder time = new StringBuilder();
