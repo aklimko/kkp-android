@@ -3,8 +3,8 @@ package pl.adamklimko.kkpandroid.model;
 public class UserData {
     private String username;
     private Profile profile;
-    private BoughtProducts boughtProducts;
-    private CleanedRooms cleanedRooms;
+    private Products boughtProducts;
+    private Rooms cleanedRooms;
 
     public String getUsername() {
         return username;
@@ -22,19 +22,19 @@ public class UserData {
         this.profile = profile;
     }
 
-    public BoughtProducts getBoughtProducts() {
+    public Products getBoughtProducts() {
         return boughtProducts;
     }
 
-    public void setBoughtProducts(BoughtProducts boughtProducts) {
+    public void setBoughtProducts(Products boughtProducts) {
         this.boughtProducts = boughtProducts;
     }
 
-    public CleanedRooms getCleanedRooms() {
+    public Rooms getCleanedRooms() {
         return cleanedRooms;
     }
 
-    public void setCleanedRooms(CleanedRooms cleanedRooms) {
+    public void setCleanedRooms(Rooms cleanedRooms) {
         this.cleanedRooms = cleanedRooms;
     }
 }

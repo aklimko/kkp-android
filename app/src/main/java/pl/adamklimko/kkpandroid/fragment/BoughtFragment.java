@@ -5,8 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +17,12 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.activity.FragmentCommunicator;
-import pl.adamklimko.kkpandroid.activity.MainActivity;
 import pl.adamklimko.kkpandroid.dialog.ProductsDialog;
 import pl.adamklimko.kkpandroid.dialog.ProductsType;
-import pl.adamklimko.kkpandroid.model.BoughtProducts;
+import pl.adamklimko.kkpandroid.model.Products;
 import pl.adamklimko.kkpandroid.model.UserData;
 import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.rest.UserSession;
-import pl.adamklimko.kkpandroid.task.UsersDataTask;
 import pl.adamklimko.kkpandroid.util.DynamicSizeUtil;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
@@ -122,7 +118,7 @@ public class BoughtFragment extends BaseFragment {
         boughtProducts = getView().findViewById(R.id.table_bought);
         boughtProducts.setStretchAllColumns(true);
 
-        rows = new TableRow[BoughtProducts.getNumberOfProducts() + 2];
+        rows = new TableRow[Products.getNumberOfProducts() + 2];
         rows[0] = new TableRow(mContext);
         rows[0].setMinimumHeight(DynamicSizeUtil.getPixelsFromDp(mContext, 45));
         rows[rows.length - 1] = new TableRow(mContext);
@@ -160,7 +156,7 @@ public class BoughtFragment extends BaseFragment {
     }
 
     private void drawBoughtData() {
-        String[] productsNames = BoughtProducts.getProductsNames();
+        String[] productsNames = Products.getProductsNames();
         for (int i = 1; i <= productsNames.length; i++) {
             rows[i] = new TableRow(mContext);
             final TableRow row = rows[i];

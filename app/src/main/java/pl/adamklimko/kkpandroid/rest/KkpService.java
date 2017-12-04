@@ -23,10 +23,10 @@ public interface KkpService {
     Call<List<UserData>> getUsersData();
 
     @PATCH("products/bought")
-    Call<BoughtProducts> addBoughtProducts(@Body BoughtProducts boughtProducts);
+    Call<Products> addBoughtProducts(@Body Products boughtProducts);
 
     @PATCH("products/missing")
-    Call<BoughtProducts> selectProductsAsMissing(@Body BoughtProducts boughtProducts);
+    Call<Products> selectProductsAsMissing(@Body Products missingProducts);
 
     @GET("history")
     Call<List<History>> getHistory();

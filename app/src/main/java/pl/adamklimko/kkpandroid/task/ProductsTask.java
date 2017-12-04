@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import pl.adamklimko.kkpandroid.exception.NoNetworkConnectedException;
 import pl.adamklimko.kkpandroid.model.ActionType;
-import pl.adamklimko.kkpandroid.model.BoughtProducts;
+import pl.adamklimko.kkpandroid.model.Products;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.util.ToastUtil;
@@ -30,10 +30,10 @@ public class ProductsTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        final BoughtProducts products = getBoughtProductsObjectFromIntegers();
+        final Products products = getBoughtProductsObjectFromIntegers();
         final KkpService kkpService = ApiClient.createServiceWithAuth(KkpService.class, mContext);
 
-        final Call<BoughtProducts> productsCall;
+        final Call<Products> productsCall;
         switch (actionType) {
             case DONE:
                 productsCall = kkpService.addBoughtProducts(products);
@@ -44,7 +44,7 @@ public class ProductsTask extends AsyncTask<Void, Void, Boolean> {
             default:
                 productsCall = kkpService.addBoughtProducts(products);
         }
-        final Response<BoughtProducts> response;
+        final Response<Products> response;
         try {
             response = productsCall.execute();
         } catch (NoNetworkConnectedException e) {
@@ -60,12 +60,12 @@ public class ProductsTask extends AsyncTask<Void, Void, Boolean> {
         return response.code() == 200;
     }
 
-    private BoughtProducts getBoughtProductsObjectFromIntegers() {
-        final BoughtProducts boughtProducts = new BoughtProducts();
-        for (Integer productId : products) {
-            boughtProducts.setFieldValueToOne(productId);
+    private Products getBoughtProductsObjectFromIntegers() {
+        final Products products = new Products();
+        for (Integer productId : this.products) {
+            products.setFieldValueToOne(productId);
         }
-        return boughtProducts;
+        return products;
     }
 
     @Override

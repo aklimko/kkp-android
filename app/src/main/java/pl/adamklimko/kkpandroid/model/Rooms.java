@@ -1,6 +1,6 @@
 package pl.adamklimko.kkpandroid.model;
 
-public class CleanedRooms {
+public class Rooms {
     private int bathroom;
     private int kitchen;
     private int floor;

@@ -5,7 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.model.ActionType;
-import pl.adamklimko.kkpandroid.model.BoughtProducts;
+import pl.adamklimko.kkpandroid.model.Products;
 import pl.adamklimko.kkpandroid.task.ProductsTask;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class ProductsDialog {
     public ProductsDialog(Context context, ProductsType type) {
         mContext = context;
         builder = new AlertDialog.Builder(mContext);
-        builder.setMultiChoiceItems(BoughtProducts.getProductsNames(), null,
+        builder.setMultiChoiceItems(Products.getProductsNames(), null,
                 new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which,

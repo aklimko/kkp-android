@@ -2,7 +2,7 @@ package pl.adamklimko.kkpandroid.model;
 
 import java.lang.reflect.Field;
 
-public class BoughtProducts {
+public class Products {
     private int toiletPaper;
     private int dishSoap;
     private int trashBags;
@@ -11,7 +11,7 @@ public class BoughtProducts {
 
     public static int getNumberOfProducts() {
         int count = 0;
-        Field[] fields = BoughtProducts.class.getDeclaredFields();
+        Field[] fields = Products.class.getDeclaredFields();
         for (Field field : fields) {
             if (field.getType() == int.class) {
                 count++;
@@ -76,7 +76,7 @@ public class BoughtProducts {
 
     public int getSumValues() {
         int count = 0;
-        Field[] fields = BoughtProducts.class.getDeclaredFields();
+        Field[] fields = Products.class.getDeclaredFields();
         for (Field field : fields) {
             if (field.getType() == int.class) {
                 try {

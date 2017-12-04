@@ -3,8 +3,8 @@ package pl.adamklimko.kkpandroid.model;
 public class History {
     private int[] time;
     private User user;
-    private BoughtProducts productsEntry;
-    private CleanedRooms roomsEntry;
+    private Products productsEntry;
+    private Rooms roomsEntry;
     private ActionType actionType;
 
     public int[] getTime() {
@@ -23,19 +23,19 @@ public class History {
         this.user = user;
     }
 
-    public BoughtProducts getProductsEntry() {
+    public Products getProductsEntry() {
         return productsEntry;
     }
 
-    public void setProductsEntry(BoughtProducts productsEntry) {
+    public void setProductsEntry(Products productsEntry) {
         this.productsEntry = productsEntry;
     }
 
-    public CleanedRooms getRoomsEntry() {
+    public Rooms getRoomsEntry() {
         return roomsEntry;
     }
 
-    public void setRoomsEntry(CleanedRooms roomsEntry) {
+    public void setRoomsEntry(Rooms roomsEntry) {
         this.roomsEntry = roomsEntry;
     }
 
