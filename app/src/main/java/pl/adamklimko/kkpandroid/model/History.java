@@ -1,17 +1,17 @@
 package pl.adamklimko.kkpandroid.model;
 
 public class History {
-    private int[] time;
+    private String time;
     private User user;
     private Products productsEntry;
     private Rooms roomsEntry;
     private ActionType actionType;
 
-    public int[] getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(int[] time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
@@ -73,23 +73,14 @@ public class History {
     }
 
     public String getTimeToString() {
-        if (time.length != 5 && time.length != 6) {
+        if (time.length() != 16) {
             return "NaD";
         }
         StringBuilder time = new StringBuilder();
-        for (int i = 3; i <= 4; i++) {
-            time.append(this.time[i]);
-            if (i != 4) {
-                time.append(":");
-            }
+        String[] datetime = this.time.split(" ");
+        if (datetime.length != 2) {
+            return "NaD";
         }
-        time.append("\n");
-        for (int i = 2; i >= 0; i--) {
-            time.append(this.time[i]);
-            if (i != 0) {
-                time.append("-");
-            }
-        }
-        return time.toString();
+        return time.append(datetime[1]).append("\n").append(datetime[0]).toString();
     }
 }
