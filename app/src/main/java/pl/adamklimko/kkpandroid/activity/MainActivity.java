@@ -15,10 +15,9 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.fragment.BaseFragment;
-import pl.adamklimko.kkpandroid.fragment.BoughtFragment;
-import pl.adamklimko.kkpandroid.fragment.CleanedFragment;
+import pl.adamklimko.kkpandroid.fragment.ProductsFragment;
+import pl.adamklimko.kkpandroid.fragment.RoomsFragment;
 import pl.adamklimko.kkpandroid.fragment.HistoryFragment;
-import pl.adamklimko.kkpandroid.fragment.dummy.DummyContent;
 import pl.adamklimko.kkpandroid.model.History;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.KkpService;
@@ -32,8 +31,8 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
 
     private KkpService kkpService;
 
-    private BoughtFragment boughtFragment;
-    private CleanedFragment cleanedFragment;
+    private ProductsFragment productsFragment;
+    private RoomsFragment roomsFragment;
     private HistoryFragment historyFragment;
     private BaseFragment currentFragment;
     private FragmentManager manager;
@@ -76,8 +75,8 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
 
         kkpService = ApiClient.createServiceWithAuth(KkpService.class, getApplicationContext());
 
-        boughtFragment = BoughtFragment.newInstance();
-        cleanedFragment = CleanedFragment.newInstance();
+        productsFragment = ProductsFragment.newInstance();
+        roomsFragment = RoomsFragment.newInstance();
         historyFragment = HistoryFragment.newInstance();
         manager = getSupportFragmentManager();
 
@@ -94,8 +93,8 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         });
 
         if (savedInstanceState == null) {
-            currentFragment = boughtFragment;
-            switchToFragment(boughtFragment);
+            currentFragment = productsFragment;
+            switchToFragment(productsFragment);
             getUsersData();
             getHistory();
         } else {
@@ -127,13 +126,13 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
 
         switch (id) {
             case R.id.nav_bought:
-                currentFragment = boughtFragment;
-                switchToFragment(boughtFragment);
+                currentFragment = productsFragment;
+                switchToFragment(productsFragment);
                 switchCheckedItem(id);
                 break;
             case R.id.nav_cleaned:
-                currentFragment = cleanedFragment;
-                switchToFragment(cleanedFragment);
+                currentFragment = roomsFragment;
+                switchToFragment(roomsFragment);
                 switchCheckedItem(id);
                 break;
             case R.id.nav_history:

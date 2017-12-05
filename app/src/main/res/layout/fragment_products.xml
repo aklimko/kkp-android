@@ -1,0 +1,71 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+             xmlns:fab="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="pl.adamklimko.kkpandroid.fragment.ProductsFragment">
+
+    <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fab_menu_products"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:paddingBottom="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            fab:menu_backgroundColor="#64838383"
+            fab:fab_colorNormal="@color/colorPrimaryDark"
+            fab:fab_colorPressed="@color/colorPrimary"
+            fab:fab_colorRipple="#99FFFFFF"
+            fab:fab_showShadow="true"
+            fab:menu_labels_colorNormal="#333333"
+            fab:menu_labels_colorPressed="#444444"
+            fab:menu_labels_colorRipple="#66FFFFFF"
+            fab:menu_labels_showShadow="true"
+            fab:menu_labels_maxLines="-1"
+            fab:menu_labels_position="left"
+            fab:menu_openDirection="up"
+            fab:fab_shadowColor="#66000000"
+            fab:menu_labels_ellipsize="end"
+            fab:menu_labels_singleLine="true">
+
+        <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_add_bought"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fab_add"
+                fab:fab_label="Add bought"
+                fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_add_to_buy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fab_add"
+                fab:fab_label="Add missing"
+                fab:fab_size="mini" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:mContext="pl.adamklimko.kkpandroid.activity.MainActivity" tools:layout_editor_absoluteY="81dp"
+                tools:layout_editor_absoluteX="0dp">
+
+            <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="320dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" app:layout_constraintHorizontal_bias="0.0"
+                    android:id="@+id/table_bought"
+                    app:layout_constraintDimensionRatio="" android:layout_marginTop="16dp"
+                    android:layout_marginLeft="8dp" android:layout_marginRight="8dp">
+
+            </TableLayout>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</FrameLayout>

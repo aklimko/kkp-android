@@ -16,12 +16,11 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.activity.FragmentCommunicator;
-import pl.adamklimko.kkpandroid.dialog.ProductsDialog;
-import pl.adamklimko.kkpandroid.dialog.ProductsType;
+import pl.adamklimko.kkpandroid.dialog.UpdateDialog;
+import pl.adamklimko.kkpandroid.model.types.ActionType;
 import pl.adamklimko.kkpandroid.model.Products;
+import pl.adamklimko.kkpandroid.model.types.ThingType;
 import pl.adamklimko.kkpandroid.model.UserData;
-import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.util.DynamicSizeUtil;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
@@ -29,60 +28,55 @@ import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 import java.util.List;
 import java.util.Set;
 
-public class BoughtFragment extends BaseFragment {
+public class ProductsFragment extends BaseFragment {
 
     private Context mContext;
 
-    private KkpService kkpService;
-    private FragmentCommunicator fragmentCommunicator;
-
     private List<UserData> usersData;
-    private TableLayout boughtProducts;
+    private TableLayout boughtProductsTable;
     private TableRow[] rows;
 
     private FloatingActionMenu fam;
-    private FloatingActionButton fabAddBought;
-    private FloatingActionButton fabAddMissing;
+    private FloatingActionButton fabAddCleaned;
+    private FloatingActionButton fabAddDirty;
 
-    public BoughtFragment() {}
+    public ProductsFragment() {}
 
-    public static BoughtFragment newInstance() {
-        return new BoughtFragment();
+    public static ProductsFragment newInstance() {
+        return new ProductsFragment();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        fragmentCommunicator = (FragmentCommunicator) context;
-        kkpService = fragmentCommunicator.getKkpService();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_bought, container, false);
+        return inflater.inflate(R.layout.fragment_products, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        fabAddBought = view.findViewById(R.id.fab_add_bought);
-        fabAddMissing = view.findViewById(R.id.fab_add_to_buy);
-        fam = view.findViewById(R.id.fab_menu);
+        fabAddCleaned = view.findViewById(R.id.fab_add_bought);
+        fabAddDirty = view.findViewById(R.id.fab_add_to_buy);
+        fam = view.findViewById(R.id.fab_menu_products);
         fam.bringToFront();
 
-        fabAddBought.setOnClickListener(onButtonClick());
-        fabAddMissing.setOnClickListener(onButtonClick());
+        fabAddCleaned.setOnClickListener(onButtonClick());
+        fabAddDirty.setOnClickListener(onButtonClick());
 
         drawWholeTable();
     }
 
     @Override
     public void redrawContent() {
-        if (boughtProducts != null) {
-            boughtProducts.removeAllViews();
+        if (boughtProductsTable != null) {
+            boughtProductsTable.removeAllViews();
         }
         drawWholeTable();
     }
@@ -91,10 +85,10 @@ public class BoughtFragment extends BaseFragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (view == fabAddBought) {
-                    new ProductsDialog(mContext, ProductsType.BOUGHT).show();
-                } else if (view == fabAddMissing) {
-                    new ProductsDialog(mContext, ProductsType.MISSING).show();
+                if (view == fabAddCleaned) {
+                    new UpdateDialog(ThingType.PRODUCTS, ActionType.DONE, mContext).show();
+                } else if (view == fabAddDirty) {
+                    new UpdateDialog(ThingType.PRODUCTS, ActionType.TO_BE_DONE, mContext).show();
                 }
                 fam.close(true);
             }
@@ -109,14 +103,14 @@ public class BoughtFragment extends BaseFragment {
         usersData = UserSession.getUsersData();
         if (usersData != null) {
             drawUsersProfiles();
-            drawBoughtData();
+            drawProductsData();
             drawTotalData();
         }
     }
 
     private void drawTable() {
-        boughtProducts = getView().findViewById(R.id.table_bought);
-        boughtProducts.setStretchAllColumns(true);
+        boughtProductsTable = getView().findViewById(R.id.table_bought);
+        boughtProductsTable.setStretchAllColumns(true);
 
         rows = new TableRow[Products.getNumberOfProducts() + 2];
         rows[0] = new TableRow(mContext);
@@ -152,10 +146,10 @@ public class BoughtFragment extends BaseFragment {
                 rows[0].addView(usernameText, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
             }
         }
-        boughtProducts.addView(rows[0]);
+        boughtProductsTable.addView(rows[0]);
     }
 
-    private void drawBoughtData() {
+    private void drawProductsData() {
         String[] productsNames = Products.getProductsNames();
         for (int i = 1; i <= productsNames.length; i++) {
             rows[i] = new TableRow(mContext);
@@ -174,7 +168,7 @@ public class BoughtFragment extends BaseFragment {
                 row.addView(value, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
             }
 
-            boughtProducts.addView(row);
+            boughtProductsTable.addView(row);
         }
     }
 
@@ -195,7 +189,7 @@ public class BoughtFragment extends BaseFragment {
             value.setTypeface(value.getTypeface(), Typeface.BOLD);
             totalRow.addView(value, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT));
         }
-        boughtProducts.addView(totalRow);
+        boughtProductsTable.addView(totalRow);
     }
 
     @Override

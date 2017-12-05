@@ -28,6 +28,12 @@ public interface KkpService {
     @PATCH("products/missing")
     Call<Products> selectProductsAsMissing(@Body Products missingProducts);
 
+    @PATCH("rooms/cleaned")
+    Call<Rooms> addCleanedRooms(@Body Rooms cleanedRooms);
+
+    @PATCH("rooms/dirty")
+    Call<Rooms> selectRoomsAsDirty(@Body Rooms dirtyRooms);
+
     @GET("history")
     Call<List<History>> getHistory();
 }

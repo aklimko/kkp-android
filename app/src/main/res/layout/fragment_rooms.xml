@@ -3,10 +3,10 @@
              xmlns:fab="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="pl.adamklimko.kkpandroid.fragment.BoughtFragment">
+             tools:context="pl.adamklimko.kkpandroid.fragment.ProductsFragment">
 
     <com.github.clans.fab.FloatingActionMenu
-            android:id="@+id/fab_menu"
+            android:id="@+id/fab_menu_rooms"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
@@ -30,19 +30,19 @@
             fab:menu_labels_singleLine="true">
 
         <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fab_add_bought"
+                android:id="@+id/fab_add_cleaned"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/fab_add"
-                fab:fab_label="Add bought"
+                fab:fab_label="Add cleaned"
                 fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fab_add_to_buy"
+                android:id="@+id/fab_add_dirty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/fab_add"
-                fab:fab_label="Add missing"
+                fab:fab_label="Select as dirty"
                 fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
@@ -61,7 +61,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent" app:layout_constraintHorizontal_bias="0.0"
-                    android:id="@+id/table_bought"
+                    android:id="@+id/table_cleaned"
                     app:layout_constraintDimensionRatio="" android:layout_marginTop="16dp"
                     android:layout_marginLeft="8dp" android:layout_marginRight="8dp">
 

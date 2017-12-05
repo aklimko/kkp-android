@@ -58,8 +58,6 @@ public class Products {
             case 4:
                 sugar = 1;
                 break;
-            default:
-                break;
         }
     }
 

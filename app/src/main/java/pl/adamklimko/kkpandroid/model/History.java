@@ -1,5 +1,7 @@
 package pl.adamklimko.kkpandroid.model;
 
+import pl.adamklimko.kkpandroid.model.types.ActionType;
+
 public class History {
     private String time;
     private User user;
@@ -66,7 +68,7 @@ public class History {
         if (productsEntry != null) {
             text.append(productsEntry.getProductsNamesWhenFieldValueIsOne());
         } else {
-            text.append(roomsEntry.toString());
+            text.append(roomsEntry.getRoomsNamesWhenFieldValueIsOne());
         }
 
         return text.toString();

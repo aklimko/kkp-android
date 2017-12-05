@@ -14,7 +14,6 @@ import pl.adamklimko.kkpandroid.model.UserData;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
