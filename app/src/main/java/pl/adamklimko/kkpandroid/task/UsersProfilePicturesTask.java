@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import pl.adamklimko.kkpandroid.activity.MainActivity;
 import pl.adamklimko.kkpandroid.model.UserData;
 import pl.adamklimko.kkpandroid.rest.UserSession;
@@ -28,8 +29,11 @@ public class UsersProfilePicturesTask extends AsyncTask<Void, Void, Map<String, 
         final Map<String, Bitmap> usersProfilePictures = new HashMap<>(usersData.size());
         for (UserData userData : usersData) {
             String facebookId = userData.getProfile().getFacebookId();
-            if (facebookId != null) {
-                usersProfilePictures.put(userData.getUsername(), ProfilePictureUtil.getProfilePicture(facebookId));
+            if (!TextUtils.isEmpty(facebookId)) {
+                final Bitmap profile = ProfilePictureUtil.getProfilePicture(facebookId);
+                if (profile != null) {
+                    usersProfilePictures.put(userData.getUsername(), profile);
+                }
             }
         }
         return usersProfilePictures;
