@@ -2,6 +2,7 @@ package pl.adamklimko.kkpandroid.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -151,11 +152,15 @@ public class ProductsFragment extends BaseFragment {
 
     private void drawProductsData() {
         String[] productsNames = Products.getProductsNames();
+        Products missingProducts = UserSession.getMissingProducts();
         for (int i = 1; i <= productsNames.length; i++) {
             rows[i] = new TableRow(mContext);
             final TableRow row = rows[i];
             row.setGravity(Gravity.CENTER);
             final TextView product = new TextView(mContext);
+            if (missingProducts != null && missingProducts.getFieldValue(i - 1) > 0) {
+                product.setTextColor(Color.RED);
+            }
             product.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
             product.setGravity(Gravity.CENTER);
             product.setText(productsNames[i - 1]);

@@ -2,6 +2,7 @@ package pl.adamklimko.kkpandroid.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -150,11 +151,15 @@ public class RoomsFragment extends BaseFragment {
 
     private void drawRoomsData() {
         String[] roomsNames = Rooms.getRoomsNames();
+        Rooms dirtyRooms = UserSession.getDirtyRooms();
         for (int i = 1; i <= roomsNames.length; i++) {
             rows[i] = new TableRow(mContext);
             final TableRow row = rows[i];
             row.setGravity(Gravity.CENTER);
             final TextView room = new TextView(mContext);
+            if (dirtyRooms != null && dirtyRooms.getFieldValue(i - 1) > 0) {
+                room.setTextColor(Color.RED);
+            }
             room.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
             room.setGravity(Gravity.CENTER);
             room.setText(roomsNames[i - 1]);

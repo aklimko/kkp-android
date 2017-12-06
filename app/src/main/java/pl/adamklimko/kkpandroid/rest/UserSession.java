@@ -166,6 +166,24 @@ public class UserSession {
         editor.apply();
     }
 
+    public static Products getMissingProducts() {
+        String missing = preferences.getString(MISSING, null);
+        if (missing == null) {
+            return null;
+        }
+        final Type listType = new TypeToken<Products>(){}.getType();
+        return new Gson().fromJson(missing, listType);
+    }
+
+    public static Rooms getDirtyRooms() {
+        String dirty = preferences.getString(DIRTY, null);
+        if (dirty == null) {
+            return null;
+        }
+        final Type listType = new TypeToken<Rooms>(){}.getType();
+        return new Gson().fromJson(dirty, listType);
+    }
+
     private static <T> void setListInPreferences(List<T> list, String key) {
         final Gson gson = new Gson();
         String data = gson.toJson(list);

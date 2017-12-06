@@ -88,6 +88,6 @@ public class RoomsTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     private void updateDataInTable() {
-        new UsersDataTask(mContext).execute();
+        new DataTask(mContext).execute();
     }
 }
