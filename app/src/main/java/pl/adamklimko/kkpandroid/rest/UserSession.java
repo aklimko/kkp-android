@@ -7,10 +7,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import pl.adamklimko.kkpandroid.model.History;
-import pl.adamklimko.kkpandroid.model.Profile;
-import pl.adamklimko.kkpandroid.model.Token;
-import pl.adamklimko.kkpandroid.model.UserData;
+import pl.adamklimko.kkpandroid.model.*;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
 import java.lang.reflect.Type;
@@ -30,6 +27,8 @@ public class UserSession {
     private static final String USERS_DATA = "users_data";
     private static final String USERS_VALID_PICTURES = "users_valid_pictures";
     private static final String HISTORY = "history";
+    private static final String MISSING = "missing";
+    private static final String DIRTY = "dirty";
 
     private static boolean firstStarted = true;
 
@@ -108,8 +107,27 @@ public class UserSession {
         editor.apply();
     }
 
+    public static void setData(Data data) {
+        setUsersData(data.getUsersData());
+        setHistoryData(data.getHistory());
+        setMissingProducts(data.getMissingProducts());
+        setDirtyRooms(data.getDirtyRooms());
+    }
+
     public static void setUsersData(List<UserData> usersData) {
         setListInPreferences(usersData, USERS_DATA);
+    }
+
+    public static void setHistoryData(List<History> historyData) {
+        setListInPreferences(historyData, HISTORY);
+    }
+
+    private static void setMissingProducts(Products missingProducts) {
+        setMissingInPreferences(missingProducts);
+    }
+
+    private static void setDirtyRooms(Rooms dirtyRooms) {
+        setDirtyInPreferences(dirtyRooms);
     }
 
     public static List<UserData> getUsersData() {
@@ -123,10 +141,6 @@ public class UserSession {
         return gson.fromJson(data, listType);
     }
 
-    public static void setHistoryData(List<History> historyData) {
-        setListInPreferences(historyData, HISTORY);
-    }
-
     public static List<History> getHistoryData() {
         String history = preferences.getString(HISTORY, null);
         if (history == null) {
@@ -134,6 +148,22 @@ public class UserSession {
         }
         final Type listType = new TypeToken<List<History>>(){}.getType();
         return new Gson().fromJson(history, listType);
+    }
+
+    private static void setMissingInPreferences(Products missingProducts) {
+        final Gson gson = new Gson();
+        String data = gson.toJson(missingProducts);
+        final Editor editor = preferences.edit();
+        editor.putString(MISSING, data);
+        editor.apply();
+    }
+
+    private static void setDirtyInPreferences(Rooms dirtyRooms) {
+        final Gson gson = new Gson();
+        String data = gson.toJson(dirtyRooms);
+        final Editor editor = preferences.edit();
+        editor.putString(DIRTY, data);
+        editor.apply();
     }
 
     private static <T> void setListInPreferences(List<T> list, String key) {

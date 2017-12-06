@@ -22,6 +22,9 @@ public interface KkpService {
     @GET("users")
     Call<List<UserData>> getUsersData();
 
+    @GET("data")
+    Call<Data> getData();
+
     @PATCH("products/bought")
     Call<Products> addBoughtProducts(@Body Products boughtProducts);
 

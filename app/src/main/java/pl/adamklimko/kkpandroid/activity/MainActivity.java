@@ -15,15 +15,15 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.fragment.BaseFragment;
+import pl.adamklimko.kkpandroid.fragment.HistoryFragment;
 import pl.adamklimko.kkpandroid.fragment.ProductsFragment;
 import pl.adamklimko.kkpandroid.fragment.RoomsFragment;
-import pl.adamklimko.kkpandroid.fragment.HistoryFragment;
 import pl.adamklimko.kkpandroid.model.History;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.task.DataTask;
 import pl.adamklimko.kkpandroid.task.HistoryTask;
-import pl.adamklimko.kkpandroid.task.UsersDataTask;
 import pl.adamklimko.kkpandroid.task.UsersProfilePicturesTask;
 import pl.adamklimko.kkpandroid.util.ToastUtil;
 
@@ -88,15 +88,15 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new UsersDataTask(getApplicationContext()).execute();
+                new DataTask(getApplicationContext()).execute();
             }
         });
 
         if (savedInstanceState == null) {
             currentFragment = productsFragment;
             switchToFragment(productsFragment);
-            getUsersData();
-            getHistory();
+            getData();
+//            getHistory();
         } else {
             currentFragment = (BaseFragment) manager.findFragmentByTag(CURRENT_FRAGMENT_TAG);
         }
@@ -188,8 +188,8 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         }
     }
 
-    private void getUsersData() {
-        new UsersDataTask(getApplicationContext()).execute();
+    private void getData() {
+        new DataTask(getApplicationContext()).execute();
     }
 
     private void getHistory() {
