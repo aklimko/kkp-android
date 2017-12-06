@@ -23,11 +23,10 @@ import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.task.DataTask;
-import pl.adamklimko.kkpandroid.task.HistoryTask;
 import pl.adamklimko.kkpandroid.task.UsersProfilePicturesTask;
 import pl.adamklimko.kkpandroid.util.ToastUtil;
 
-public class MainActivity extends DrawerActivity implements FragmentCommunicator, HistoryFragment.OnListFragmentInteractionListener {
+public class MainActivity extends DrawerActivity {
 
     private KkpService kkpService;
 
@@ -96,7 +95,6 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
             currentFragment = productsFragment;
             switchToFragment(productsFragment);
             getData();
-//            getHistory();
         } else {
             currentFragment = (BaseFragment) manager.findFragmentByTag(CURRENT_FRAGMENT_TAG);
         }
@@ -192,11 +190,6 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
         new DataTask(getApplicationContext()).execute();
     }
 
-    private void getHistory() {
-        //TODO: can pass arguments to task to determine if it worth to redraw content on fragment or not
-        new HistoryTask(getApplicationContext()).execute();
-    }
-
     private void switchToFragment(Fragment fragment) {
         manager.beginTransaction()
                 .replace(R.id.fragment_container, fragment, CURRENT_FRAGMENT_TAG)
@@ -204,19 +197,9 @@ public class MainActivity extends DrawerActivity implements FragmentCommunicator
     }
 
     @Override
-    public KkpService getKkpService() {
-        return kkpService;
-    }
-
-    @Override
     protected void onDestroy() {
         kkpService = null;
         unregisterBroadcastReceivers();
         super.onDestroy();
-    }
-
-    @Override
-    public void onListFragmentInteraction(History item) {
-
     }
 }

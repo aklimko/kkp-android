@@ -9,22 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.fragment.dummy.DummyContent;
-import pl.adamklimko.kkpandroid.model.History;
+import pl.adamklimko.kkpandroid.rest.UserSession;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class HistoryFragment extends BaseFragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
     private int mColumnCount = 1;
-    private OnListFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -64,7 +54,7 @@ public class HistoryFragment extends BaseFragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new HistoryRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new HistoryRecyclerViewAdapter(UserSession.getHistoryData()));
         }
         return view;
     }
@@ -73,18 +63,11 @@ public class HistoryFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -103,11 +86,6 @@ public class HistoryFragment extends BaseFragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        recyclerView.setAdapter(new HistoryRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-    }
-
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(History item);
+        recyclerView.setAdapter(new HistoryRecyclerViewAdapter(UserSession.getHistoryData()));
     }
 }
