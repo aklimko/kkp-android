@@ -18,17 +18,12 @@ import pl.adamklimko.kkpandroid.fragment.BaseFragment;
 import pl.adamklimko.kkpandroid.fragment.HistoryFragment;
 import pl.adamklimko.kkpandroid.fragment.ProductsFragment;
 import pl.adamklimko.kkpandroid.fragment.RoomsFragment;
-import pl.adamklimko.kkpandroid.model.History;
-import pl.adamklimko.kkpandroid.rest.ApiClient;
-import pl.adamklimko.kkpandroid.rest.KkpService;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.task.DataTask;
 import pl.adamklimko.kkpandroid.task.UsersProfilePicturesTask;
 import pl.adamklimko.kkpandroid.util.ToastUtil;
 
 public class MainActivity extends DrawerActivity {
-
-    private KkpService kkpService;
 
     private ProductsFragment productsFragment;
     private RoomsFragment roomsFragment;
@@ -71,8 +66,6 @@ public class MainActivity extends DrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        kkpService = ApiClient.createServiceWithAuth(KkpService.class, getApplicationContext());
 
         productsFragment = ProductsFragment.newInstance();
         roomsFragment = RoomsFragment.newInstance();
@@ -198,7 +191,6 @@ public class MainActivity extends DrawerActivity {
 
     @Override
     protected void onDestroy() {
-        kkpService = null;
         unregisterBroadcastReceivers();
         super.onDestroy();
     }
