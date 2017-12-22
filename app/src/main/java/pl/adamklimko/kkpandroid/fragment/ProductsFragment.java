@@ -64,7 +64,7 @@ public class ProductsFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         fabAddCleaned = view.findViewById(R.id.fab_add_bought);
-        fabAddDirty = view.findViewById(R.id.fab_add_to_buy);
+        fabAddDirty = view.findViewById(R.id.fab_mark_as_missing);
         fam = view.findViewById(R.id.fab_menu_products);
         fam.bringToFront();
 
@@ -151,7 +151,7 @@ public class ProductsFragment extends BaseFragment {
     }
 
     private void drawProductsData() {
-        String[] productsNames = Products.getProductsNames();
+        String[] productsNames = getResources().getStringArray(R.array.products_names);
         Products missingProducts = UserSession.getMissingProducts();
         for (int i = 1; i <= productsNames.length; i++) {
             rows[i] = new TableRow(mContext);
@@ -181,7 +181,7 @@ public class ProductsFragment extends BaseFragment {
         final TableRow totalRow = rows[rows.length - 1];
         totalRow.setGravity(Gravity.CENTER);
         TextView total = new TextView(mContext);
-        total.setText("Total");
+        total.setText(getString(R.string.total));
         total.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
         total.setGravity(Gravity.CENTER);
         total.setTypeface(total.getTypeface(), Typeface.BOLD);

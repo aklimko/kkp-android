@@ -16,10 +16,6 @@ public class HistoryFragment extends BaseFragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public HistoryFragment() {
     }
 
@@ -57,17 +53,6 @@ public class HistoryFragment extends BaseFragment {
             recyclerView.setAdapter(new HistoryRecyclerViewAdapter(UserSession.getHistoryData()));
         }
         return view;
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     @Override

@@ -9,8 +9,6 @@
             android:id="@+id/fab_menu_products"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:paddingBottom="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             fab:menu_backgroundColor="#64838383"
@@ -38,11 +36,11 @@
                 fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fab_add_to_buy"
+                android:id="@+id/fab_mark_as_missing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/fab_add"
-                fab:fab_label="Add missing"
+                fab:fab_label="Mark as missing"
                 fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>

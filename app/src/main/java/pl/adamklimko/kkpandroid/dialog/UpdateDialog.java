@@ -6,8 +6,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.model.types.ActionType;
-import pl.adamklimko.kkpandroid.model.Products;
-import pl.adamklimko.kkpandroid.model.Rooms;
 import pl.adamklimko.kkpandroid.model.types.ThingType;
 import pl.adamklimko.kkpandroid.task.ProductsTask;
 import pl.adamklimko.kkpandroid.task.RoomsTask;
@@ -28,18 +26,18 @@ public class UpdateDialog {
         this.thingType = thingType;
         this.actionType = actionType;
         builder = new AlertDialog.Builder(mContext);
-        final String[] names;
+        final int names;
         switch (thingType) {
             case PRODUCTS:
-                names = Products.getProductsNames();
+                names = R.array.products_names;
                 task = new ProductsTask(mSelectedItems, this.actionType, mContext);
                 break;
             case ROOMS:
-                names = Rooms.getRoomsNames();
+                names = R.array.rooms_names;
                 task = new RoomsTask(mSelectedItems, this.actionType, mContext);
                 break;
             default:
-                names = Products.getProductsNames();
+                names = R.array.products_names;
                 task = new ProductsTask(mSelectedItems, this.actionType, mContext);
         }
 
@@ -69,26 +67,44 @@ public class UpdateDialog {
                     public void onClick(DialogInterface dialog, int id) {
                     }
                 });
+        setTitle();
+    }
 
+    private void setTitle() {
         switch (actionType) {
             case DONE:
-                setTitleDone();
+                if (thingType == ThingType.PRODUCTS) {
+                    setProductsTitleDone();
+                } else {
+                    setRoomsTitleDone();
+                }
                 break;
             case TO_BE_DONE:
-                setTitleToBeDone();
+                if (thingType == ThingType.PRODUCTS) {
+                    setProductsTitleToBeDone();
+                } else {
+                    setRoomsTitleToBeDone();
+                }
                 break;
             default:
                 break;
         }
     }
 
-    private void setTitleDone() {
-        builder.setTitle("Select bought products");
+    private void setProductsTitleDone() {
+        builder.setTitle(R.string.select_bought_products);
     }
 
-    private void setTitleToBeDone() {
-        builder.setTitle("Select missing products");
+    private void setProductsTitleToBeDone() {
+        builder.setTitle(R.string.mark_missing_products);
+    }
 
+    private void setRoomsTitleDone() {
+        builder.setTitle(R.string.select_cleaned_rooms);
+    }
+
+    private void setRoomsTitleToBeDone() {
+        builder.setTitle(R.string.mark_dirty_rooms);
     }
 
     public void show() {

@@ -18,10 +18,6 @@ public class Rooms {
         return count;
     }
 
-    public static String[] getRoomsNames() {
-        return new String[]{"Bathroom", "Kitchen", "Floor"};
-    }
-
     public int getFieldValue(int field) {
         switch (field) {
             case 0:

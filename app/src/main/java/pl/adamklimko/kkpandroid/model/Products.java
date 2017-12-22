@@ -20,10 +20,6 @@ public class Products {
         return count;
     }
 
-    public static String[] getProductsNames() {
-        return new String[]{"Toilet paper", "Dish soap", "Trash bags", "Soap", "Sugar"};
-    }
-
     public int getFieldValue(int field) {
         switch (field) {
             case 0:

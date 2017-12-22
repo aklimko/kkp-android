@@ -150,7 +150,7 @@ public class RoomsFragment extends BaseFragment {
     }
 
     private void drawRoomsData() {
-        String[] roomsNames = Rooms.getRoomsNames();
+        String[] roomsNames = getResources().getStringArray(R.array.rooms_names);
         Rooms dirtyRooms = UserSession.getDirtyRooms();
         for (int i = 1; i <= roomsNames.length; i++) {
             rows[i] = new TableRow(mContext);
@@ -180,7 +180,7 @@ public class RoomsFragment extends BaseFragment {
         final TableRow totalRow = rows[rows.length - 1];
         totalRow.setGravity(Gravity.CENTER);
         TextView total = new TextView(mContext);
-        total.setText("Total");
+        total.setText(R.string.total);
         total.setHeight(DynamicSizeUtil.getPixelsFromDp(getContext(), 40));
         total.setGravity(Gravity.CENTER);
         total.setTypeface(total.getTypeface(), Typeface.BOLD);
