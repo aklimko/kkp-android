@@ -1,8 +1,8 @@
 package pl.adamklimko.kkpandroid.model;
 
 public class Profile {
-    private String fullName;
-    private String facebookId;
+    private final String fullName;
+    private final String facebookId;
 
     public Profile(String fullName, String facebookId) {
         this.fullName = fullName;
