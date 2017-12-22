@@ -57,11 +57,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     };
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void onBackPressed() {
         if (inFragment) {
             updateProfileIfChanged();
