@@ -23,7 +23,14 @@ public class ProfilePictureUtil {
             connection.setDoInput(true);
             connection.connect();
             final InputStream input = connection.getInputStream();
-            return BitmapFactory.decodeStream(input);
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+            if (bitmap == null) {
+                return null;
+            }
+            if (bitmap.getHeight() != 200 && bitmap.getWidth() != 200) {
+                bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, false);
+            }
+            return bitmap;
         } catch (IOException e) {
             return null;
         }
@@ -59,7 +66,7 @@ public class ProfilePictureUtil {
             fos = new FileOutputStream(path);
             bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
         } catch (Exception e) {
-            fos = null;
+
         } finally {
             try {
                 if (fos != null) {
