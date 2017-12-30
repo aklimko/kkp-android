@@ -92,7 +92,7 @@ public class ProfilePictureUtil {
     }
 
     public static void getUserProfile(Context context) {
-        final KkpService authService = ApiClient.createServiceWithAuth(KkpService.class, context);
+        final KkpService authService = ApiClient.createServiceWithAuth(KkpService.class);
         final Call<Profile> profileCall = authService.getProfile();
         final Response<Profile> response;
         try {

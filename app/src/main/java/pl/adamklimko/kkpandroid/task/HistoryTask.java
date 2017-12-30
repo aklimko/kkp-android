@@ -24,7 +24,7 @@ public class HistoryTask extends AsyncTask<Void, Void, List<History>> {
 
     @Override
     protected List<History> doInBackground(Void... voids) {
-        final KkpService usersDataService = ApiClient.createServiceWithAuth(KkpService.class, mContext);
+        final KkpService usersDataService = ApiClient.createServiceWithAuth(KkpService.class);
         final Call<List<History>> profileCall = usersDataService.getHistory();
         final Response<List<History>> response;
         try {

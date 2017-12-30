@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     private void updateProfilePreferencesInApi(Profile profileAfterChanges) {
         final Context mContext = getApplicationContext();
-        final KkpService kkpService = ApiClient.createServiceWithAuth(KkpService.class, mContext);
+        final KkpService kkpService = ApiClient.createServiceWithAuth(KkpService.class);
         final Call<Profile> patchProfileCall = kkpService.patchProfile(profileAfterChanges);
         patchProfileCall.enqueue(new Callback<Profile>() {
             @Override

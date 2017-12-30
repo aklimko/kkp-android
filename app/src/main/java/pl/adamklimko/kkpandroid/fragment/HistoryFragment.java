@@ -2,6 +2,7 @@ package pl.adamklimko.kkpandroid.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ public class HistoryFragment extends BaseFragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
+    private RecyclerView recyclerView;
 
     public HistoryFragment() {
     }
@@ -44,7 +46,7 @@ public class HistoryFragment extends BaseFragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -72,5 +74,19 @@ public class HistoryFragment extends BaseFragment {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
         recyclerView.setAdapter(new HistoryRecyclerViewAdapter(UserSession.getHistoryData()));
+    }
+
+    @Override
+    public void improveSwipeLayout(final SwipeRefreshLayout swipeRefreshLayout) {
+        if (recyclerView == null) {
+            return;
+        }
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                swipeRefreshLayout.setEnabled((recyclerView.canScrollVertically(-1)));
+            }
+        });
     }
 }

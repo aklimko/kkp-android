@@ -13,35 +13,35 @@ public class ApiClient {
 
     private final static OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
             .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(TIMEOUT, TimeUnit.SECONDS);
+            .readTimeout(TIMEOUT, TimeUnit.SECONDS);
 
     private final static OkHttpClient.Builder httpClientAuth = new OkHttpClient.Builder()
             .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(TIMEOUT, TimeUnit.SECONDS);
+            .readTimeout(TIMEOUT, TimeUnit.SECONDS);
 
     private final static Retrofit.Builder builder =
             new Retrofit.Builder()
                     .baseUrl(API_URL)
                     .addConverterFactory(GsonConverterFactory.create());
 
-    private static Retrofit retrofit = builder.build();
+    private static Retrofit retrofit;
+
+    public static void initHttpClientAuth(Context context) {
+        httpClientAuth.interceptors().clear();
+        httpClientAuth.networkInterceptors().clear();
+        httpClientAuth.addInterceptor(new AuthenticationInterceptor(UserSession.getToken()));
+        httpClientAuth.addNetworkInterceptor(new NetworkInterceptor(context));
+        builder.client(httpClientAuth.build());
+        retrofit = builder.build();
+    }
 
     public static <S> S createService(Class<S> serviceClass, Context context) {
         httpClient.addNetworkInterceptor(new NetworkInterceptor(context));
         builder.client(httpClient.build());
-        retrofit = builder.build();
-        return retrofit.create(serviceClass);
+        return builder.build().create(serviceClass);
     }
 
-    public static <S> S createServiceWithAuth(Class<S> serviceClass, final Context context) {
-        if (UserSession.hasToken()) {
-            httpClientAuth.addInterceptor(new AuthenticationInterceptor(UserSession.getToken()));
-            httpClientAuth.addNetworkInterceptor(new NetworkInterceptor(context));
-            builder.client(httpClientAuth.build());
-            retrofit = builder.build();
-        }
+    public static <S> S createServiceWithAuth(Class<S> serviceClass) {
         return retrofit.create(serviceClass);
     }
 }

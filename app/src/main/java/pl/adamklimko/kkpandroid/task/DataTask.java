@@ -23,7 +23,7 @@ public class DataTask extends AsyncTask<Void, Void, Data> {
 
     @Override
     protected Data doInBackground(Void... voids) {
-        final KkpService dataService = ApiClient.createServiceWithAuth(KkpService.class, mContext);
+        final KkpService dataService = ApiClient.createServiceWithAuth(KkpService.class);
         final Call<Data> profileCall = dataService.getData();
         final Response<Data> response;
         try {
@@ -37,11 +37,17 @@ public class DataTask extends AsyncTask<Void, Void, Data> {
     @Override
     protected void onPostExecute(Data data) {
         if (data == null) {
+            informAboutNoInternetConnection();
             return;
         }
         setDataInPreferences(data);
         informToUpdateUsersDataView();
         super.onPostExecute(data);
+    }
+
+    private void informAboutNoInternetConnection() {
+        final Intent intent = new Intent(MainActivity.NETWORK_FAIL);
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 
     private void setDataInPreferences(Data data) {

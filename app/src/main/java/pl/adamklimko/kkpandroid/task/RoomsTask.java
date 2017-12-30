@@ -31,7 +31,7 @@ public class RoomsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         final Rooms rooms = getRoomsObjectFromIntegers();
-        final KkpService kkpService = ApiClient.createServiceWithAuth(KkpService.class, mContext);
+        final KkpService kkpService = ApiClient.createServiceWithAuth(KkpService.class);
 
         final Call<Rooms> roomsCall;
         switch (actionType) {

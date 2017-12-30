@@ -31,7 +31,7 @@ public class ProductsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... params) {
         final Products products = getProductsObjectFromIntegers();
-        final KkpService kkpService = ApiClient.createServiceWithAuth(KkpService.class, mContext);
+        final KkpService kkpService = ApiClient.createServiceWithAuth(KkpService.class);
 
         final Call<Products> productsCall;
         switch (actionType) {

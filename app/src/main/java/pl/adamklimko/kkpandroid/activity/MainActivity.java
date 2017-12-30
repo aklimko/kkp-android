@@ -18,6 +18,7 @@ import pl.adamklimko.kkpandroid.fragment.BaseFragment;
 import pl.adamklimko.kkpandroid.fragment.HistoryFragment;
 import pl.adamklimko.kkpandroid.fragment.ProductsFragment;
 import pl.adamklimko.kkpandroid.fragment.RoomsFragment;
+import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.task.DataTask;
 import pl.adamklimko.kkpandroid.task.UsersProfilePicturesTask;
@@ -40,6 +41,15 @@ public class MainActivity extends DrawerActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             currentFragment.redrawContent();
+        }
+    };
+
+    public static final String NETWORK_FAIL = "network_fail";
+    private final BroadcastReceiver mNetworkFailedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            swipeRefreshLayout.setRefreshing(false);
+            ToastUtil.showToastShort("Cannot connect to a server", getApplicationContext());
         }
     };
 
@@ -85,6 +95,7 @@ public class MainActivity extends DrawerActivity {
         });
 
         if (savedInstanceState == null) {
+            ApiClient.initHttpClientAuth(getApplicationContext());
             currentFragment = productsFragment;
             switchToFragment(productsFragment);
             getData();
@@ -96,12 +107,14 @@ public class MainActivity extends DrawerActivity {
 
     private void registerBroadcastReceivers() {
         LocalBroadcastManager.getInstance(this).registerReceiver(mUsersProfilePicturesReceiver, new IntentFilter(USERS_PROFILE_PICTURES));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mNetworkFailedReceiver, new IntentFilter(NETWORK_FAIL));
         LocalBroadcastManager.getInstance(this).registerReceiver(mUsersDataReceiver, new IntentFilter(USERS_DATA));
         LocalBroadcastManager.getInstance(this).registerReceiver(mNewProfilePictureSaved, new IntentFilter(REDRAW_PICTURE));
     }
 
     private void unregisterBroadcastReceivers() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mUsersProfilePicturesReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mNetworkFailedReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mUsersDataReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mNewProfilePictureSaved);
     }
