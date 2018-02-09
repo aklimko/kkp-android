@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.activity;
+package pl.adamklimko.kkpandroid.view.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -47,18 +47,18 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Setting SharedPreferences
-        if (UserSession.isAppJustStarted()) {
-            UserSession.initPreferences(getApplicationContext());
-        }
-
-        if (UserSession.hasToken()) {
-            UserSession.setFirstStarted(false);
-            final Intent messageActivity = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(messageActivity);
-            finish();
-            Toast.makeText(this, "Welcome " + UserSession.getUsername(), Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (UserSession.isAppJustStarted()) {
+//            UserSession.initPreferences(getApplicationContext());
+//        }
+//
+//        if (UserSession.hasToken()) {
+//            UserSession.setFirstStarted(false);
+//            final Intent messageActivity = new Intent(getApplicationContext(), MainActivity.class);
+//            startActivity(messageActivity);
+//            finish();
+//            Toast.makeText(this, "Welcome " + UserSession.getUsername(), Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         kkpService = ApiClient.createService(KkpService.class, getApplicationContext());
         // Set up the login form.

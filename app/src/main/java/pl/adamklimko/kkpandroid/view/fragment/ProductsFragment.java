@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.fragment;
+package pl.adamklimko.kkpandroid.view.fragment;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.dialog.UpdateDialog;
+import pl.adamklimko.kkpandroid.view.dialog.UpdateDialog;
 import pl.adamklimko.kkpandroid.model.types.ActionType;
 import pl.adamklimko.kkpandroid.model.Products;
 import pl.adamklimko.kkpandroid.model.types.ThingType;

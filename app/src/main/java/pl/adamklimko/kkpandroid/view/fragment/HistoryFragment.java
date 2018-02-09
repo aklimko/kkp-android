@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.fragment;
+package pl.adamklimko.kkpandroid.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
-import pl.adamklimko.kkpandroid.activity.MainActivity;
+import pl.adamklimko.kkpandroid.view.activity.MainActivity;
 import pl.adamklimko.kkpandroid.model.History;
 import pl.adamklimko.kkpandroid.rest.ApiClient;
 import pl.adamklimko.kkpandroid.rest.KkpService;

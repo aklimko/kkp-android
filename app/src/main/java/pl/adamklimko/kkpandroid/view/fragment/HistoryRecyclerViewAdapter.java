@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.fragment;
+package pl.adamklimko.kkpandroid.view.fragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;

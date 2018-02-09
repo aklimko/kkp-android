@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.activity;
+package pl.adamklimko.kkpandroid.view.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,10 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.fragment.BaseFragment;
-import pl.adamklimko.kkpandroid.fragment.HistoryFragment;
-import pl.adamklimko.kkpandroid.fragment.ProductsFragment;
-import pl.adamklimko.kkpandroid.fragment.RoomsFragment;
+import pl.adamklimko.kkpandroid.view.fragment.BaseFragment;
+import pl.adamklimko.kkpandroid.view.fragment.HistoryFragment;
+import pl.adamklimko.kkpandroid.view.fragment.ProductsFragment;
+import pl.adamklimko.kkpandroid.view.fragment.RoomsFragment;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.task.DataTask;
 import pl.adamklimko.kkpandroid.task.UsersProfilePicturesTask;

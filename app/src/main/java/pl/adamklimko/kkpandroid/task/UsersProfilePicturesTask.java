@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import pl.adamklimko.kkpandroid.activity.MainActivity;
+import pl.adamklimko.kkpandroid.view.activity.MainActivity;
 import pl.adamklimko.kkpandroid.model.UserData;
 import pl.adamklimko.kkpandroid.rest.UserSession;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;

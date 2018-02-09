@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.dialog;
+package pl.adamklimko.kkpandroid.view.dialog;
 
 import android.content.Context;
 import android.content.DialogInterface;

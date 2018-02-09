@@ -30,8 +30,6 @@ public class UserSession {
     private static final String MISSING = "missing";
     private static final String DIRTY = "dirty";
 
-    private static boolean firstStarted = true;
-
     public static void initPreferences(Context context) {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -81,14 +79,6 @@ public class UserSession {
         for (String name : validUserProfilePictures) {
             ProfilePictureUtil.deletePictureFromStorage(ProfilePictureUtil.getUserPictureName(name), context);
         }
-    }
-
-    public static boolean isAppJustStarted() {
-        return firstStarted;
-    }
-
-    public static void setFirstStarted(boolean firstStarted) {
-        UserSession.firstStarted = firstStarted;
     }
 
     public static void setProfileDataInPreferences(Profile profile) {

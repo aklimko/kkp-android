@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
-import pl.adamklimko.kkpandroid.activity.MainActivity;
+import pl.adamklimko.kkpandroid.view.activity.MainActivity;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
 public class ProfilePictureTask extends AsyncTask<String, Void, Bitmap> {

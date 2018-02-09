@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.activity;
+package pl.adamklimko.kkpandroid.view.activity;
 
 import pl.adamklimko.kkpandroid.rest.KkpService;
 

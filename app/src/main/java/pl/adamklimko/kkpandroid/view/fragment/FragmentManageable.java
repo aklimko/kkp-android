@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.fragment;
+package pl.adamklimko.kkpandroid.view.fragment;
 
 public interface FragmentManageable {
     void redrawContent();
