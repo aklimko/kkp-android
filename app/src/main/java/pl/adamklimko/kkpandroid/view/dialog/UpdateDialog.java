@@ -1,44 +1,42 @@
 package pl.adamklimko.kkpandroid.view.dialog;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.model.types.ActionType;
 import pl.adamklimko.kkpandroid.model.types.ThingType;
 import pl.adamklimko.kkpandroid.task.ProductsTask;
 import pl.adamklimko.kkpandroid.task.RoomsTask;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class UpdateDialog {
     private final List<Integer> mSelectedItems = new ArrayList<>();
     private final AlertDialog.Builder builder;
-    private final Context mContext;
     private final ThingType thingType;
     private final ActionType actionType;
     private final AsyncTask<Void, Void, Boolean> task;
 
     public UpdateDialog(ThingType thingType, ActionType actionType, Context context) {
-        mContext = context;
         this.thingType = thingType;
         this.actionType = actionType;
-        builder = new AlertDialog.Builder(mContext);
-        final int names;
+        builder = new AlertDialog.Builder(context);
+        int names;
         switch (thingType) {
             case PRODUCTS:
                 names = R.array.products_names;
-                task = new ProductsTask(mSelectedItems, this.actionType, mContext);
+                task = new ProductsTask(mSelectedItems, this.actionType, context);
                 break;
             case ROOMS:
                 names = R.array.rooms_names;
-                task = new RoomsTask(mSelectedItems, this.actionType, mContext);
+                task = new RoomsTask(mSelectedItems, this.actionType, context);
                 break;
             default:
                 names = R.array.products_names;
-                task = new ProductsTask(mSelectedItems, this.actionType, mContext);
+                task = new ProductsTask(mSelectedItems, this.actionType, context);
         }
 
         builder.setMultiChoiceItems(names, null,

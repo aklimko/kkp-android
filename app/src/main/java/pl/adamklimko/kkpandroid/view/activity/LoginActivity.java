@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
+
+import butterknife.BindView;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.exception.NoNetworkConnectedException;
 import pl.adamklimko.kkpandroid.model.Token;
@@ -32,37 +34,27 @@ public class LoginActivity extends AppCompatActivity {
 
     private UserLoginTask mAuthTask = null;
 
-    // UI references.
-    private AutoCompleteTextView mUsernameView;
-    private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
     private KkpService kkpService;
+
+    @BindView(R.id.username)
+    private AutoCompleteTextView mUsernameView;
+
+    @BindView(R.id.password)
+    private EditText mPasswordView;
+
+    @BindView(R.id.login_progress)
+    private View mProgressView;
+
+    @BindView(R.id.login_form)
+    private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Setting SharedPreferences
-//        if (UserSession.isAppJustStarted()) {
-//            UserSession.initPreferences(getApplicationContext());
-//        }
-//
-//        if (UserSession.hasToken()) {
-//            UserSession.setFirstStarted(false);
-//            final Intent messageActivity = new Intent(getApplicationContext(), MainActivity.class);
-//            startActivity(messageActivity);
-//            finish();
-//            Toast.makeText(this, "Welcome " + UserSession.getUsername(), Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-
         kkpService = ApiClient.createService(KkpService.class, getApplicationContext());
-        // Set up the login form.
-        mUsernameView = (AutoCompleteTextView) findViewById(R.id.username);
 
-        mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener((textView, id, keyEvent) -> {
             if (id == R.id.login || id == EditorInfo.IME_NULL) {
                 attemptLogin();
@@ -71,11 +63,8 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         });
 
-        final Button mSignInButton = (Button) findViewById(R.id.username_sign_in_button);
+        final Button mSignInButton = findViewById(R.id.username_sign_in_button);
         mSignInButton.setOnClickListener(view -> attemptLogin());
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
     }
 
     /**

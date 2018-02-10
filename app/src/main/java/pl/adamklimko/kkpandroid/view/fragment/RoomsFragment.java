@@ -16,6 +16,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+
+import butterknife.BindView;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.view.dialog.UpdateDialog;
 import pl.adamklimko.kkpandroid.model.*;
@@ -36,9 +38,14 @@ public class RoomsFragment extends BaseFragment {
     private TableLayout cleanedRoomsTable;
     private TableRow[] rows;
 
+    @BindView(R.id.fab_menu_products)
     private FloatingActionMenu fam;
+
+    @BindView(R.id.fab_add_bought)
     private FloatingActionButton fabAddCleaned;
-    private FloatingActionButton fabAddDirty;
+
+    @BindView(R.id.fab_mark_as_missing)
+    private FloatingActionButton fabMarkDirty;
 
     public RoomsFragment() {}
 
@@ -62,13 +69,10 @@ public class RoomsFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        fabAddCleaned = view.findViewById(R.id.fab_add_cleaned);
-        fabAddDirty = view.findViewById(R.id.fab_add_dirty);
-        fam = view.findViewById(R.id.fab_menu_rooms);
         fam.bringToFront();
 
         fabAddCleaned.setOnClickListener(onButtonClick());
-        fabAddDirty.setOnClickListener(onButtonClick());
+        fabMarkDirty.setOnClickListener(onButtonClick());
 
         drawWholeTable();
     }
@@ -85,7 +89,7 @@ public class RoomsFragment extends BaseFragment {
         return view -> {
             if (view == fabAddCleaned) {
                 new UpdateDialog(ThingType.ROOMS, ActionType.DONE, mContext).show();
-            } else if (view == fabAddDirty) {
+            } else if (view == fabMarkDirty) {
                 new UpdateDialog(ThingType.ROOMS, ActionType.TO_BE_DONE, mContext).show();
             }
             fam.close(true);

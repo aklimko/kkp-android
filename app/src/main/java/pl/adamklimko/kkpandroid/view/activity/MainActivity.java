@@ -13,6 +13,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+
+import butterknife.BindView;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.view.fragment.BaseFragment;
 import pl.adamklimko.kkpandroid.view.fragment.HistoryFragment;
@@ -31,6 +33,7 @@ public class MainActivity extends DrawerActivity {
     private BaseFragment currentFragment;
     private FragmentManager manager;
 
+    @BindView(R.id.swipe_refresh)
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private static final String CURRENT_FRAGMENT_TAG = "CURRENT_FRAGMENT";
@@ -74,7 +77,6 @@ public class MainActivity extends DrawerActivity {
 
         registerBroadcastReceivers();
 
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.red);
         swipeRefreshLayout.setRefreshing(false);
         swipeRefreshLayout.setOnRefreshListener(() -> new DataTask(getApplicationContext()).execute());

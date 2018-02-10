@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import butterknife.BindView;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.view.dialog.UpdateDialog;
 import pl.adamklimko.kkpandroid.model.types.ActionType;
@@ -39,9 +40,14 @@ public class ProductsFragment extends BaseFragment {
     private TableLayout boughtProductsTable;
     private TableRow[] rows;
 
+    @BindView(R.id.fab_menu_products)
     private FloatingActionMenu fam;
-    private FloatingActionButton fabAddCleaned;
-    private FloatingActionButton fabAddDirty;
+
+    @BindView(R.id.fab_add_bought)
+    private FloatingActionButton fabAddBought;
+
+    @BindView(R.id.fab_mark_as_missing)
+    private FloatingActionButton fabMarkMissing;
 
     public ProductsFragment() {
     }
@@ -66,13 +72,10 @@ public class ProductsFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        fabAddCleaned = view.findViewById(R.id.fab_add_bought);
-        fabAddDirty = view.findViewById(R.id.fab_mark_as_missing);
-        fam = view.findViewById(R.id.fab_menu_products);
         fam.bringToFront();
 
-        fabAddCleaned.setOnClickListener(onButtonClick());
-        fabAddDirty.setOnClickListener(onButtonClick());
+        fabAddBought.setOnClickListener(onButtonClick());
+        fabMarkMissing.setOnClickListener(onButtonClick());
 
         drawWholeTable();
     }
@@ -87,9 +90,9 @@ public class ProductsFragment extends BaseFragment {
 
     private View.OnClickListener onButtonClick() {
         return (view) -> {
-            if (view == fabAddCleaned) {
+            if (view == fabAddBought) {
                 new UpdateDialog(ThingType.PRODUCTS, ActionType.DONE, mContext).show();
-            } else if (view == fabAddDirty) {
+            } else if (view == fabMarkMissing) {
                 new UpdateDialog(ThingType.PRODUCTS, ActionType.TO_BE_DONE, mContext).show();
             }
             fam.close(true);
