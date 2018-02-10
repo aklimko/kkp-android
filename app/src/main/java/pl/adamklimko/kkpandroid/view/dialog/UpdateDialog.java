@@ -42,30 +42,20 @@ public class UpdateDialog {
         }
 
         builder.setMultiChoiceItems(names, null,
-                new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which,
-                                        boolean isChecked) {
-                        if (isChecked) {
-                            mSelectedItems.add(which);
-                        } else if (mSelectedItems.contains(which)) {
-                            mSelectedItems.remove(Integer.valueOf(which));
-                        }
+                (dialog, which, isChecked) -> {
+                    if (isChecked) {
+                        mSelectedItems.add(which);
+                    } else if (mSelectedItems.contains(which)) {
+                        mSelectedItems.remove(Integer.valueOf(which));
                     }
                 })
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (mSelectedItems.isEmpty()) {
-                            return;
-                        }
-                        task.execute();
+                .setPositiveButton(R.string.ok, (dialog, id) -> {
+                    if (mSelectedItems.isEmpty()) {
+                        return;
                     }
+                    task.execute();
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {
                 });
         setTitle();
     }

@@ -14,8 +14,10 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.view.dialog.UpdateDialog;
 import pl.adamklimko.kkpandroid.model.types.ActionType;
@@ -41,7 +43,8 @@ public class ProductsFragment extends BaseFragment {
     private FloatingActionButton fabAddCleaned;
     private FloatingActionButton fabAddDirty;
 
-    public ProductsFragment() {}
+    public ProductsFragment() {
+    }
 
     public static ProductsFragment newInstance() {
         return new ProductsFragment();
@@ -83,16 +86,13 @@ public class ProductsFragment extends BaseFragment {
     }
 
     private View.OnClickListener onButtonClick() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view == fabAddCleaned) {
-                    new UpdateDialog(ThingType.PRODUCTS, ActionType.DONE, mContext).show();
-                } else if (view == fabAddDirty) {
-                    new UpdateDialog(ThingType.PRODUCTS, ActionType.TO_BE_DONE, mContext).show();
-                }
-                fam.close(true);
+        return (view) -> {
+            if (view == fabAddCleaned) {
+                new UpdateDialog(ThingType.PRODUCTS, ActionType.DONE, mContext).show();
+            } else if (view == fabAddDirty) {
+                new UpdateDialog(ThingType.PRODUCTS, ActionType.TO_BE_DONE, mContext).show();
             }
+            fam.close(true);
         };
     }
 

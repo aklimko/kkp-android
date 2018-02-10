@@ -37,19 +37,16 @@ public class WelcomeActivity extends AppCompatActivity {
 
         loadLocalData();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (userLoggedIn()) {
-                    Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(main);
-                    Toast.makeText(getApplicationContext(), "Welcome " + UserSession.getUsername(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent login = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(login);
-                }
-                finish();
+        new Handler().postDelayed(() -> {
+            if (userLoggedIn()) {
+                Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(main);
+                Toast.makeText(getApplicationContext(), "Welcome " + UserSession.getUsername(), Toast.LENGTH_SHORT).show();
+            } else {
+                Intent login = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(login);
             }
+            finish();
         }, WAIT_TIME_AFTER_ANIMATION);
     }
 

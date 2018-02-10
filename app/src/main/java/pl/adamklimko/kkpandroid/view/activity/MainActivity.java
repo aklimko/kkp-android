@@ -74,15 +74,10 @@ public class MainActivity extends DrawerActivity {
 
         registerBroadcastReceivers();
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.red);
         swipeRefreshLayout.setRefreshing(false);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new DataTask(getApplicationContext()).execute();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> new DataTask(getApplicationContext()).execute());
 
         if (savedInstanceState == null) {
             currentFragment = productsFragment;

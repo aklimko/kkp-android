@@ -82,16 +82,13 @@ public class RoomsFragment extends BaseFragment {
     }
 
     private View.OnClickListener onButtonClick() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (view == fabAddCleaned) {
-                    new UpdateDialog(ThingType.ROOMS, ActionType.DONE, mContext).show();
-                } else if (view == fabAddDirty) {
-                    new UpdateDialog(ThingType.ROOMS, ActionType.TO_BE_DONE, mContext).show();
-                }
-                fam.close(true);
+        return view -> {
+            if (view == fabAddCleaned) {
+                new UpdateDialog(ThingType.ROOMS, ActionType.DONE, mContext).show();
+            } else if (view == fabAddDirty) {
+                new UpdateDialog(ThingType.ROOMS, ActionType.TO_BE_DONE, mContext).show();
             }
+            fam.close(true);
         };
     }
 
