@@ -21,7 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.network.UserSession;
 import pl.adamklimko.kkpandroid.task.ProfilePictureTask;
 import pl.adamklimko.kkpandroid.util.KeyboardUtil;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;

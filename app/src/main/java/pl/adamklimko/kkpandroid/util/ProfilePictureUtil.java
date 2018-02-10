@@ -4,9 +4,9 @@ import android.content.Context;
 import android.graphics.*;
 import android.text.TextUtils;
 import pl.adamklimko.kkpandroid.model.Profile;
-import pl.adamklimko.kkpandroid.rest.ApiClient;
-import pl.adamklimko.kkpandroid.rest.UserSession;
-import pl.adamklimko.kkpandroid.rest.KkpService;
+import pl.adamklimko.kkpandroid.network.ApiClient;
+import pl.adamklimko.kkpandroid.network.UserSession;
+import pl.adamklimko.kkpandroid.network.KkpService;
 import retrofit2.Call;
 import retrofit2.Response;
 

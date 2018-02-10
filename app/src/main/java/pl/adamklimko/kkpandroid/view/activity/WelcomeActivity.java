@@ -11,7 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.network.UserSession;
 
 public class WelcomeActivity extends AppCompatActivity {
 

@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import pl.adamklimko.kkpandroid.R;
-import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.network.UserSession;
 
 public class HistoryFragment extends BaseFragment {
 

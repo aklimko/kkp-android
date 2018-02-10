@@ -21,7 +21,7 @@ import pl.adamklimko.kkpandroid.view.dialog.UpdateDialog;
 import pl.adamklimko.kkpandroid.model.*;
 import pl.adamklimko.kkpandroid.model.types.ActionType;
 import pl.adamklimko.kkpandroid.model.types.ThingType;
-import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.network.UserSession;
 import pl.adamklimko.kkpandroid.util.DynamicSizeUtil;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 

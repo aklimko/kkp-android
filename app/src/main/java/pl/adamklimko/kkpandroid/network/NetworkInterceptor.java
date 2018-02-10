@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.rest;
+package pl.adamklimko.kkpandroid.network;
 
 import android.content.Context;
 import okhttp3.Interceptor;

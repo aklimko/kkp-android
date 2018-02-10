@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.rest;
+package pl.adamklimko.kkpandroid.network;
 
 import okhttp3.Interceptor;
 import okhttp3.Request;

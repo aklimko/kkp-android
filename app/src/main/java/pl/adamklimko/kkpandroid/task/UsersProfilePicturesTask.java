@@ -8,19 +8,20 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import pl.adamklimko.kkpandroid.view.activity.MainActivity;
 import pl.adamklimko.kkpandroid.model.UserData;
-import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.network.UserSession;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class UsersProfilePicturesTask extends AsyncTask<Void, Void, Map<String, Bitmap>> {
-    private final Context mContext;
+    private final WeakReference<Context> mContext;
     private final List<UserData> usersData;
 
-    public UsersProfilePicturesTask(Context mContext, List<UserData> usersData) {
-        this.mContext = mContext;
+    public UsersProfilePicturesTask(Context context, List<UserData> usersData) {
+        this.mContext = new WeakReference<>(context);
         this.usersData = usersData;
     }
 
@@ -50,7 +51,7 @@ public class UsersProfilePicturesTask extends AsyncTask<Void, Void, Map<String, 
     private void saveProfilePicturesInStorage(Map<String, Bitmap> usersProfilePictures) {
         for (Map.Entry<String, Bitmap> entry : usersProfilePictures.entrySet()) {
             if (entry.getValue() != null) {
-                ProfilePictureUtil.saveProfilePicture(entry.getValue(), entry.getKey(), mContext);
+                ProfilePictureUtil.saveProfilePicture(entry.getValue(), entry.getKey(), mContext.get());
             }
         }
     }
@@ -61,6 +62,6 @@ public class UsersProfilePicturesTask extends AsyncTask<Void, Void, Map<String, 
 
     private void informToUpdateProfilePictures(Map<String, Bitmap> usersProfilePictures) {
         final Intent intent = new Intent(MainActivity.USERS_PROFILE_PICTURES);
-        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(mContext.get()).sendBroadcast(intent);
     }
 }

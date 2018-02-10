@@ -6,24 +6,25 @@ import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import pl.adamklimko.kkpandroid.view.activity.MainActivity;
 import pl.adamklimko.kkpandroid.model.Data;
-import pl.adamklimko.kkpandroid.rest.ApiClient;
-import pl.adamklimko.kkpandroid.rest.KkpService;
-import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.network.ApiClient;
+import pl.adamklimko.kkpandroid.network.KkpService;
+import pl.adamklimko.kkpandroid.network.UserSession;
 import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 public class DataTask extends AsyncTask<Void, Void, Data> {
-    private final Context mContext;
+    private final WeakReference<Context> mContext;
 
     public DataTask(Context context) {
-        mContext = context;
+        mContext = new WeakReference<>(context);
     }
 
     @Override
     protected Data doInBackground(Void... voids) {
-        final KkpService dataService = ApiClient.createServiceWithAuth(KkpService.class, mContext);
+        final KkpService dataService = ApiClient.createServiceWithAuth(KkpService.class, mContext.get());
         final Call<Data> profileCall = dataService.getData();
         final Response<Data> response;
         try {
@@ -50,6 +51,6 @@ public class DataTask extends AsyncTask<Void, Void, Data> {
 
     private void informToUpdateUsersDataView() {
         final Intent intent = new Intent(MainActivity.USERS_DATA);
-        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(mContext.get()).sendBroadcast(intent);
     }
 }

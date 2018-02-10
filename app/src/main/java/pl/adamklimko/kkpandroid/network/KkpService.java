@@ -1,4 +1,4 @@
-package pl.adamklimko.kkpandroid.rest;
+package pl.adamklimko.kkpandroid.network;
 
 import pl.adamklimko.kkpandroid.model.*;
 import retrofit2.Call;

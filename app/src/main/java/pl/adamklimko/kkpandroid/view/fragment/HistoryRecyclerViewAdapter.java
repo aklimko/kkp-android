@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.model.History;
-import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.network.UserSession;
 
 import java.util.List;
 

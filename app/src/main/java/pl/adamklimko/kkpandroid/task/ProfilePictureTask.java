@@ -5,15 +5,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
+
+import java.lang.ref.WeakReference;
+
 import pl.adamklimko.kkpandroid.view.activity.MainActivity;
 import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
 public class ProfilePictureTask extends AsyncTask<String, Void, Bitmap> {
-    private final Context mContext;
+    private final WeakReference<Context> mContext;
     private final String username;
 
-    public ProfilePictureTask(Context mContext, String username) {
-        this.mContext = mContext;
+    public ProfilePictureTask(Context context, String username) {
+        this.mContext = new WeakReference<>(context);
         this.username = username;
     }
 
@@ -28,13 +31,13 @@ public class ProfilePictureTask extends AsyncTask<String, Void, Bitmap> {
         if (bitmap == null) {
             return;
         }
-        ProfilePictureUtil.saveProfilePicture(bitmap, username, mContext);
+        ProfilePictureUtil.saveProfilePicture(bitmap, username, mContext.get());
         informToRedrawProfilePictureViewInDrawer();
         super.onPostExecute(bitmap);
     }
 
     private void informToRedrawProfilePictureViewInDrawer() {
         final Intent intent = new Intent(MainActivity.REDRAW_PICTURE);
-        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+        LocalBroadcastManager.getInstance(mContext.get()).sendBroadcast(intent);
     }
 }

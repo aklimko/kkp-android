@@ -18,7 +18,7 @@ import pl.adamklimko.kkpandroid.view.fragment.BaseFragment;
 import pl.adamklimko.kkpandroid.view.fragment.HistoryFragment;
 import pl.adamklimko.kkpandroid.view.fragment.ProductsFragment;
 import pl.adamklimko.kkpandroid.view.fragment.RoomsFragment;
-import pl.adamklimko.kkpandroid.rest.UserSession;
+import pl.adamklimko.kkpandroid.network.UserSession;
 import pl.adamklimko.kkpandroid.task.DataTask;
 import pl.adamklimko.kkpandroid.task.UsersProfilePicturesTask;
 import pl.adamklimko.kkpandroid.util.ToastUtil;
