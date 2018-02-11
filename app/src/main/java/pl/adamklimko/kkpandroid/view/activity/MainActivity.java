@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.view.fragment.BaseFragment;
 import pl.adamklimko.kkpandroid.view.fragment.HistoryFragment;
@@ -33,8 +34,7 @@ public class MainActivity extends DrawerActivity {
     private BaseFragment currentFragment;
     private FragmentManager manager;
 
-    @BindView(R.id.swipe_refresh)
-    private SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
 
     private static final String CURRENT_FRAGMENT_TAG = "CURRENT_FRAGMENT";
 
@@ -69,6 +69,7 @@ public class MainActivity extends DrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         productsFragment = ProductsFragment.newInstance();
         roomsFragment = RoomsFragment.newInstance();

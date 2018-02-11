@@ -19,6 +19,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.view.dialog.UpdateDialog;
 import pl.adamklimko.kkpandroid.model.types.ActionType;
@@ -40,14 +41,11 @@ public class ProductsFragment extends BaseFragment {
     private TableLayout boughtProductsTable;
     private TableRow[] rows;
 
-    @BindView(R.id.fab_menu_products)
-    private FloatingActionMenu fam;
+    @BindView(R.id.fab_menu_products) FloatingActionMenu fam;
 
-    @BindView(R.id.fab_add_bought)
-    private FloatingActionButton fabAddBought;
+    @BindView(R.id.fab_add_bought) FloatingActionButton fabAddBought;
 
-    @BindView(R.id.fab_mark_as_missing)
-    private FloatingActionButton fabMarkMissing;
+    @BindView(R.id.fab_mark_as_missing) FloatingActionButton fabMarkMissing;
 
     public ProductsFragment() {
     }
@@ -71,6 +69,7 @@ public class ProductsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
 
         fam.bringToFront();
 

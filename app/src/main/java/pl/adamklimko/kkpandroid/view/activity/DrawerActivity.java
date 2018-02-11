@@ -20,8 +20,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import butterknife.BindView;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.network.UserSession;
 import pl.adamklimko.kkpandroid.task.ProfilePictureTask;
@@ -30,13 +28,9 @@ import pl.adamklimko.kkpandroid.util.ProfilePictureUtil;
 
 public abstract class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.view_stub)
     private FrameLayout viewStub; //This is the framelayout to keep your content view
-
-    @BindView(R.id.navigation_view)
     private NavigationView navigationView; // The new navigation view from Android Design Library. Can inflate menu resources. Easy
 
-    @BindView(R.id.drawer_layout)
     private DrawerLayout mDrawerLayout;
 
     private ActionBarDrawerToggle mDrawerToggle;
@@ -56,7 +50,10 @@ public abstract class DrawerActivity extends AppCompatActivity implements Naviga
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.drawer_layout);
 
+        viewStub = findViewById(R.id.view_stub);
+        navigationView = findViewById(R.id.navigation_view);
         navigationView.setCheckedItem(0);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
 
         final View v = navigationView.getHeaderView(0);
         mUsername = v.findViewById(R.id.header_username);

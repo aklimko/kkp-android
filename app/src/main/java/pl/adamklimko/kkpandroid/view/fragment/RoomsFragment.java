@@ -18,6 +18,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.view.dialog.UpdateDialog;
 import pl.adamklimko.kkpandroid.model.*;
@@ -35,17 +36,14 @@ public class RoomsFragment extends BaseFragment {
     private Context mContext;
 
     private List<UserData> usersData;
-    private TableLayout cleanedRoomsTable;
+    @BindView(R.id.table_cleaned) TableLayout cleanedRoomsTable;
     private TableRow[] rows;
 
-    @BindView(R.id.fab_menu_products)
-    private FloatingActionMenu fam;
+    @BindView(R.id.fab_menu_products) FloatingActionMenu fam;
 
-    @BindView(R.id.fab_add_bought)
-    private FloatingActionButton fabAddCleaned;
+    @BindView(R.id.fab_add_bought) FloatingActionButton fabAddCleaned;
 
-    @BindView(R.id.fab_mark_as_missing)
-    private FloatingActionButton fabMarkDirty;
+    @BindView(R.id.fab_mark_as_missing) FloatingActionButton fabMarkDirty;
 
     public RoomsFragment() {}
 
@@ -68,6 +66,7 @@ public class RoomsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
 
         fam.bringToFront();
 

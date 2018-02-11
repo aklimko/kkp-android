@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import pl.adamklimko.kkpandroid.R;
 import pl.adamklimko.kkpandroid.exception.NoNetworkConnectedException;
 import pl.adamklimko.kkpandroid.model.Token;
@@ -36,22 +37,19 @@ public class LoginActivity extends AppCompatActivity {
 
     private KkpService kkpService;
 
-    @BindView(R.id.username)
-    private AutoCompleteTextView mUsernameView;
+    @BindView(R.id.username) AutoCompleteTextView mUsernameView;
 
-    @BindView(R.id.password)
-    private EditText mPasswordView;
+    @BindView(R.id.password) EditText mPasswordView;
 
-    @BindView(R.id.login_progress)
-    private View mProgressView;
+    @BindView(R.id.login_progress) View mProgressView;
 
-    @BindView(R.id.login_form)
-    private View mLoginFormView;
+    @BindView(R.id.login_form) View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
         kkpService = ApiClient.createService(KkpService.class, getApplicationContext());
 
