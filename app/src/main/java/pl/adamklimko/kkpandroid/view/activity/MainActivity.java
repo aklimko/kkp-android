@@ -1,5 +1,8 @@
 package pl.adamklimko.kkpandroid.view.activity;
 
+import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -17,6 +21,7 @@ import android.view.SubMenu;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.adamklimko.kkpandroid.R;
+import pl.adamklimko.kkpandroid.network.NotificationService;
 import pl.adamklimko.kkpandroid.view.fragment.BaseFragment;
 import pl.adamklimko.kkpandroid.view.fragment.HistoryFragment;
 import pl.adamklimko.kkpandroid.view.fragment.ProductsFragment;
@@ -34,7 +39,11 @@ public class MainActivity extends DrawerActivity {
     private BaseFragment currentFragment;
     private FragmentManager manager;
 
-    @BindView(R.id.swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
+    NotificationService mNotificationService;
+    Intent mServiceIntent;
+
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private static final String CURRENT_FRAGMENT_TAG = "CURRENT_FRAGMENT";
 
@@ -53,15 +62,6 @@ public class MainActivity extends DrawerActivity {
             currentFragment.redrawContent();
             swipeRefreshLayout.setRefreshing(false);
             new UsersProfilePicturesTask(getApplicationContext(), UserSession.getUsersData()).execute();
-        }
-    };
-
-    public static final String REDRAW_PICTURE = "redraw_picture";
-    private final BroadcastReceiver mNewProfilePictureSaved = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            MainActivity.super.redrawProfilePicture();
-            currentFragment.redrawContent();
         }
     };
 
@@ -89,19 +89,47 @@ public class MainActivity extends DrawerActivity {
         } else {
             currentFragment = (BaseFragment) manager.findFragmentByTag(CURRENT_FRAGMENT_TAG);
         }
+
+        mNotificationService = new NotificationService(getApplicationContext());
+        mServiceIntent = new Intent(getApplicationContext(), mNotificationService.getClass());
+        if (!isMyServiceRunning(mNotificationService.getClass())) {
+            startService(mServiceIntent);
+        }
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("isMyServiceRunning?", true+"");
+                return true;
+            }
+        }
+        Log.i ("isMyServiceRunning?", false+"");
+        return false;
+    }
+
+    private void showNotification(String message) {
+
+        NotificationManager notif = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notify = new Notification.Builder
+                (getApplicationContext()).setContentTitle("siema").setContentText("witaj").
+                setContentTitle("lol").setSmallIcon(R.mipmap.ic_launcher).build();
+
+        notify.flags = Notification.FLAG_AUTO_CANCEL;
+        notif.notify(0, notify);
+
     }
 
 
     private void registerBroadcastReceivers() {
         LocalBroadcastManager.getInstance(this).registerReceiver(mUsersProfilePicturesReceiver, new IntentFilter(USERS_PROFILE_PICTURES));
         LocalBroadcastManager.getInstance(this).registerReceiver(mUsersDataReceiver, new IntentFilter(USERS_DATA));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mNewProfilePictureSaved, new IntentFilter(REDRAW_PICTURE));
     }
 
     private void unregisterBroadcastReceivers() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mUsersProfilePicturesReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mUsersDataReceiver);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mNewProfilePictureSaved);
     }
 
     @Override
@@ -190,6 +218,7 @@ public class MainActivity extends DrawerActivity {
     @Override
     protected void onDestroy() {
         unregisterBroadcastReceivers();
+        stopService(mServiceIntent);
         super.onDestroy();
     }
 }

@@ -39,11 +39,11 @@ public class RoomsFragment extends BaseFragment {
     @BindView(R.id.table_cleaned) TableLayout cleanedRoomsTable;
     private TableRow[] rows;
 
-    @BindView(R.id.fab_menu_products) FloatingActionMenu fam;
+    @BindView(R.id.fab_menu_rooms) FloatingActionMenu fam;
 
-    @BindView(R.id.fab_add_bought) FloatingActionButton fabAddCleaned;
+    @BindView(R.id.fab_add_cleaned) FloatingActionButton fabAddCleaned;
 
-    @BindView(R.id.fab_mark_as_missing) FloatingActionButton fabMarkDirty;
+    @BindView(R.id.fab_add_dirty) FloatingActionButton fabMarkDirty;
 
     public RoomsFragment() {}
 

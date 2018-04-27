@@ -29,6 +29,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".network.NotificationService"
+            android:enabled="true" >
+        </service>
+
+        <receiver
+            android:name=".network.NotificationRestarterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="RestartNotificationService"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
